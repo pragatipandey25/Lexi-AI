@@ -229,9 +229,9 @@ function Home() {
 
             <div className="relative">
               {/* Decorative illustration placeholder for a future legal AI image. */}
-              <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-4 shadow-[0_25px_80px_-35px_rgba(37,99,235,0.45)] sm:p-6">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-violet-500/10" />
-                <div className="relative rounded-[1.5rem] border border-dashed border-blue-200 bg-gradient-to-br from-slate-50 to-white p-6 sm:p-8">
+              <div className="relative overflow-hidden rounded-4xl border border-slate-200 bg-white p-4 shadow-[0_25px_80px_-35px_rgba(37,99,235,0.45)] sm:p-6">
+                <div className="absolute inset-0 bg-linear-to-br from-blue-500/10 via-transparent to-violet-500/10" />
+                <div className="relative rounded-[1.5rem] border border-dashed border-blue-200 bg-linear-to-br from-slate-50 to-white p-6 sm:p-8">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-semibold text-blue-700">
