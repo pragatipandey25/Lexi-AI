@@ -449,7 +449,7 @@ function Home() {
           </div>
         </section>
 
-        <section className="bg-gradient-to-br from-blue-50 via-white to-violet-50 py-20 sm:py-24">
+        <section className="bg-linear-to-br from-blue-50 via-white to-violet-50 py-20 sm:py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
               {stats.map((stat) => (
@@ -471,7 +471,7 @@ function Home() {
 
         <section id="contact" className="scroll-mt-24 py-20 sm:py-24">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="overflow-hidden rounded-[2rem] border border-slate-200 bg-gradient-to-r from-slate-900 via-blue-900 to-violet-900 px-6 py-12 text-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] sm:px-10 sm:py-14">
+            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-linear-to-r from-slate-900 via-blue-900 to-violet-900 px-6 py-12 text-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] sm:px-10 sm:py-14">
               <div className="max-w-3xl">
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
                   Call To Action
@@ -512,7 +512,7 @@ function Home() {
               href="#home"
               className="inline-flex items-center gap-2 text-xl font-semibold text-slate-900"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-sm font-bold text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-sm font-bold text-white">
                 L
               </span>
               LexiAI
