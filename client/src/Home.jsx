@@ -231,7 +231,7 @@ function Home() {
               {/* Decorative illustration placeholder for a future legal AI image. */}
               <div className="relative overflow-hidden rounded-4xl border border-slate-200 bg-white p-4 shadow-[0_25px_80px_-35px_rgba(37,99,235,0.45)] sm:p-6">
                 <div className="absolute inset-0 bg-linear-to-br from-blue-500/10 via-transparent to-violet-500/10" />
-                <div className="relative rounded-[1.5rem] border border-dashed border-blue-200 bg-linear-to-br from-slate-50 to-white p-6 sm:p-8">
+                <div className="relative rounded-3xl border border-dashed border-blue-200 bg-linear-to-br from-slate-50 to-white p-6 sm:p-8">
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm font-semibold text-blue-700">
@@ -276,7 +276,7 @@ function Home() {
                           Review highlighted clauses for more certainty.
                         </p>
                       </div>
-                      <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-violet-50 p-4">
+                      <div className="rounded-2xl border border-blue-100 bg-linear-to-br from-blue-50 to-violet-50 p-4">
                         <p className="text-sm font-medium text-blue-700">
                           Plain Summary
                         </p>
@@ -340,7 +340,7 @@ function Home() {
                     key={feature.title}
                     className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_60px_-25px_rgba(37,99,235,0.35)]"
                   >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/20 transition group-hover:scale-105">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/20 transition group-hover:scale-105">
                       <Icon aria-hidden="true" className="h-5 w-5" />
                     </div>
                     <h3 className="mt-5 text-lg font-semibold text-slate-900">
@@ -432,7 +432,7 @@ function Home() {
                       key={benefit.title}
                       className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-30px_rgba(37,99,235,0.35)]"
                     >
-                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/20">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-white shadow-lg shadow-blue-500/20">
                         <Icon aria-hidden="true" className="h-5 w-5" />
                       </div>
                       <h3 className="mt-5 text-lg font-semibold text-slate-900">
