@@ -1,190 +1,299 @@
-# 🧠 LexiAI
+# ⚖️ LexiAI – AI-Powered Legal Document Assistant
 
-A full-stack web application built with **React + Vite** on the frontend and **Express.js + MongoDB** on the backend, featuring JWT-based user authentication.
+LexiAI is an AI-powered web application that helps users understand complex legal documents by simplifying legal language, highlighting risky clauses, and generating easy-to-read summaries.
 
----
-
-## ✨ Features
-
-- 🔐 **User Authentication** — Register and login with JWT-based authentication (7-day token expiry)
-- 👥 **Role-Based Access** — Supports `user` and `admin` roles
-- 📁 **File Upload** — Multer-based file upload handling
-- 🗄️ **MongoDB Integration** — Mongoose ODM with schema validation
-- ⚡ **React + Vite** — Fast HMR development experience
-- 🧾 **React Hook Form** — Performant form validation
-- 🔔 **Toast Notifications** — User-friendly feedback via React Hot Toast
-- 🛡️ **Password Hashing** — Secure bcrypt hashing (10 salt rounds)
-- 🌐 **CORS Enabled** — Cross-origin resource sharing configured
+This project is being developed as a **B.Tech Final Year Major Project** using the MERN Stack and AI technologies.
 
 ---
 
-## 🛠️ Tech Stack
+# 🚀 Project Overview
 
-| Layer         | Technology                                                                    |
-| ------------- | ----------------------------------------------------------------------------- |
-| **Frontend**  | React 19, Vite 8, React Router DOM 7, Axios, React Hook Form, React Hot Toast |
-| **Backend**   | Node.js, Express.js 5, Mongoose 9, JWT, bcrypt, Multer                        |
-| **Database**  | MongoDB                                                                       |
-| **Dev Tools** | Nodemon, ESLint                                                               |
+Legal agreements such as rental contracts, employment agreements, loan documents, and Terms & Conditions are often difficult for ordinary users to understand.
+
+LexiAI allows users to upload legal documents and uses AI to:
+
+- Explain legal clauses in simple language
+- Identify risky clauses
+- Highlight important legal terms
+- Generate AI-powered summaries
+- Support English and Hindi explanations (Future Scope)
 
 ---
 
-## 📁 Project Structure
+# ✨ Planned Features
+
+## Authentication
+
+- User Registration
+- User Login
+- JWT Authentication
+- Role-based Access (User/Admin)
+
+## AI Document Analysis
+
+- Upload PDF Documents
+- OCR Support (Future)
+- AI Clause Explanation
+- Risk Detection
+- Plain Language Summary
+- Clause-by-Clause Analysis
+
+## Dashboard
+
+- User Dashboard
+- Upload History
+- Analysis History
+- Download Reports
+
+## Admin Panel
+
+- User Management
+- Document Monitoring
+- Analytics Dashboard
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React.js
+- Vite
+- React Router DOM
+- Axios
+- Tailwind CSS
+- React Hook Form
+- React Hot Toast
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- bcrypt
+- Multer
+
+## AI
+
+- Google Gemini API
+- Prompt Engineering
+
+## Development Tools
+
+- Git
+- GitHub
+- VS Code
+- Postman
+
+---
+
+# 📁 Project Structure
 
 ```
-lexiai/
-├── client/                    # React + Vite frontend
-│   ├── public/                # Static assets (favicon, icons)
+LexiAI/
+│
+├── client/
+│   ├── public/
 │   ├── src/
-│   │   ├── assets/            # Images and media
-│   │   ├── App.jsx            # Main app component
-│   │   ├── App.css            # App styles
-│   │   ├── main.jsx           # Entry point
-│   │   └── index.css          # Global styles
-│   ├── index.html
-│   ├── vite.config.js
-│   ├── eslint.config.js
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
 │   └── package.json
 │
-├── server/                    # Express.js backend
+├── server/
 │   ├── config/
-│   │   └── db.js              # MongoDB connection
 │   ├── controllers/
-│   │   └── authController.js  # Auth logic (register, login)
 │   ├── middleware/
-│   │   └── authMiddleware.js  # JWT verification middleware
 │   ├── models/
-│   │   └── User.js            # User schema (name, email, password, role)
 │   ├── routes/
-│   │   └── authRoutes.js      # Auth API routes
-│   ├── services/              # Business logic services
-│   ├── uploads/               # Uploaded files directory
-│   ├── utils/                 # Utility functions
-│   ├── app.js                 # Express app setup
-│   ├── server.js              # Server entry point
+│   ├── services/
+│   ├── uploads/
+│   ├── utils/
+│   ├── app.js
+│   ├── server.js
 │   └── package.json
 │
-├── docs/                      # Documentation
-├── uploads/                   # Root uploads directory
-├── package.json               # Root dependencies (validator)
-├── LICENSE
+├── docs/
+├── uploads/
+├── .gitignore
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+# ⚙️ Installation
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) (v18 or later)
-- [MongoDB](https://www.mongodb.com/) (local or Atlas)
-- npm or yarn
-
-### 1. Clone the repository
+## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/lexia.git
-cd lexiai
+git clone https://github.com/pragatipandey25/Lexi-AI.git
+cd LexiAI
 ```
 
-### 2. Install dependencies
+---
+
+## Install Dependencies
+
+### Root
 
 ```bash
-# Install root dependencies
 npm install
-
-# Install client dependencies
-cd client && npm install
-
-# Install server dependencies
-cd ../server && npm install
 ```
 
-### 3. Environment Variables
-
-Create a `.env` file in the `server/` directory:
-
-```env
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/lexia
-JWT_SECRET=your_jwt_secret_key_here
-```
-
-### 4. Run the application
-
-#### Start the backend server
-
-```bash
-cd server
-npm run dev    # with Nodemon (auto-restart)
-# or
-npm start      # production mode
-```
-
-#### Start the frontend client
+### Frontend
 
 ```bash
 cd client
-npm run dev    # Vite dev server (default: http://localhost:5173)
+npm install
+```
+
+### Backend
+
+```bash
+cd ../server
+npm install
 ```
 
 ---
 
-## 📡 API Endpoints
+# 🔑 Environment Variables
 
-| Method | Endpoint             | Description         | Auth Required |
-| ------ | -------------------- | ------------------- | ------------- |
-| `GET`  | `/`                  | Health check        | ❌            |
-| `POST` | `/api/auth/register` | Register a new user | ❌            |
-| `POST` | `/api/auth/login`    | Login user          | ❌            |
+Create a `.env` file inside the `server` directory.
 
-### Response Format
+```env
+PORT=5000
 
-**Success:**
+MONGO_URI=your_mongodb_connection_string
 
-```json
-{
-  "success": true,
-  "message": "User registered successfully",
-  "token": "eyJhbGciOiJIUzI1NiIs...",
-  "user": {
-    "id": "...",
-    "name": "John Doe",
-    "email": "john@example.com",
-    "role": "user"
-  }
-}
-```
+JWT_SECRET=your_secret_key
 
-**Error:**
-
-```json
-{
-  "success": false,
-  "message": "Error description here"
-}
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
 ---
 
-## 🧑‍💻 User Model
+# ▶️ Run the Project
 
-| Field      | Type   | Required | Constraints                                       |
-| ---------- | ------ | -------- | ------------------------------------------------- |
-| `name`     | String | ✅       | 3–50 characters                                   |
-| `email`    | String | ✅       | Valid email, unique, lowercase                    |
-| `password` | String | ✅       | Min 6 characters, hashed, not selected by default |
-| `role`     | String | ❌       | `user` or `admin` (default: `user`)               |
+## Backend
+
+```bash
+cd server
+npm run dev
+```
+
+Runs on:
+
+```
+http://localhost:5000
+```
 
 ---
 
-## 📜 License
+## Frontend
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```bash
+cd client
+npm run dev
+```
+
+Runs on:
+
+```
+http://localhost:5173
+```
 
 ---
 
-## 🤝 Contributing
+# 📡 Current API Endpoints
 
-Contributions, issues, and feature requests are welcome! Feel free to open an issue or submit a pull request.
+| Method | Endpoint           | Description   |
+| ------ | ------------------ | ------------- |
+| POST   | /api/auth/register | Register User |
+| POST   | /api/auth/login    | Login User    |
+
+---
+
+# 🎯 Project Roadmap
+
+## Phase 1
+
+- Project Setup
+- MongoDB Integration
+- Authentication
+- Landing Page
+
+## Phase 2
+
+- Dashboard
+- PDF Upload
+- Multer Integration
+- File Storage
+
+## Phase 3
+
+- Gemini AI Integration
+- Clause Extraction
+- Legal Risk Detection
+- AI Summary Generation
+
+## Phase 4
+
+- Download Report
+- User History
+- Admin Dashboard
+- Deployment
+
+---
+
+# 🎓 Academic Information
+
+**Project Title**
+
+**LexiAI – AI-Powered Legal Document Assistant**
+
+**Project Type**
+
+B.Tech Final Year Major Project
+
+**Duration**
+
+August 2026 – September 2026
+
+---
+
+# 👨‍💻 Developer
+
+**Pragati Pandey**
+
+B.Tech Computer Science Engineering
+
+Final Year Project
+
+---
+
+# ⭐ Future Scope
+
+- Hindi Language Support
+- OCR for Scanned Documents
+- Voice-Based Legal Explanation
+- AI Chat Assistant
+- Document Comparison
+- Legal Recommendation Engine
+- Mobile Application
+
+---
+
+# 📌 Project Status
+
+🚧 Currently Under Development
+
+Version: **v0.1.0**
