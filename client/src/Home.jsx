@@ -138,7 +138,7 @@ function Home() {
             href="#home"
             className="inline-flex items-center gap-2 text-xl font-semibold tracking-tight text-slate-900 transition hover:text-blue-600"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
               L
             </span>
             LexiAI
@@ -168,7 +168,7 @@ function Home() {
             </a>
             <a
               href="#contact"
-              className="rounded-full bg-gradient-to-r from-blue-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:scale-[1.02] hover:shadow-blue-500/30"
+              className="rounded-full bg-linear-to-r from-blue-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:scale-[1.02] hover:shadow-blue-500/30"
             >
               Register
             </a>
@@ -177,9 +177,9 @@ function Home() {
       </header>
 
       <main id="home">
-        <section className="relative overflow-hidden bg-gradient-to-br from-white via-blue-50 to-violet-50">
-          <div className="absolute left-1/2 top-0 -z-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-400/20 blur-3xl sm:h-96 sm:w-96" />
-          <div className="absolute right-0 top-20 -z-0 h-56 w-56 rounded-full bg-violet-400/20 blur-3xl sm:h-80 sm:w-80" />
+        <section className="relative overflow-hidden bg-linear-to-br from-white via-blue-50 to-violet-50">
+          <div className="absolute left-1/2 top-0 z-0 h-72 w-72 -translate-x-1/2 rounded-full bg-blue-400/20 blur-3xl sm:h-96 sm:w-96" />
+          <div className="absolute right-0 top-20 z-0 h-56 w-56 rounded-full bg-violet-400/20 blur-3xl sm:h-80 sm:w-80" />
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-28">
             <div className="max-w-2xl">
