@@ -20,13 +20,15 @@ LexiAI allows users to upload legal documents and uses AI to:
 
 ---
 
-# ✨ Planned Features
+# ✨ Features
 
 ## Authentication
 
-- User Registration
-- User Login
-- JWT Authentication
+- User Registration (Clerk)
+- User Login (Clerk)
+- Social & Email/Password sign-in via Clerk
+- Session Management & User Profiles
+- JWT Authentication (Backend API)
 - Role-based Access (User/Admin)
 
 ## AI Document Analysis
@@ -57,20 +59,22 @@ LexiAI allows users to upload legal documents and uses AI to:
 
 ## Frontend
 
-- React.js
-- Vite
-- React Router DOM
+- React.js 19
+- Vite 8
+- React Router DOM 7
 - Axios
-- Tailwind CSS
+- Tailwind CSS 4
+- Clerk (Authentication)
 - React Hook Form
 - React Hot Toast
+- React Icons
 
 ## Backend
 
 - Node.js
-- Express.js
+- Express.js 5
 - MongoDB
-- Mongoose
+- Mongoose 9
 - JWT Authentication
 - bcrypt
 - Multer
@@ -98,23 +102,25 @@ LexiAI/
 │   ├── public/
 │   ├── src/
 │   │   ├── assets/
-│   │   ├── components/
 │   │   ├── pages/
-│   │   ├── layouts/
-│   │   ├── hooks/
-│   │   ├── services/
-│   │   ├── utils/
+│   │   │   └── AuthPage.jsx
 │   │   ├── App.jsx
+│   │   ├── Home.jsx
 │   │   ├── main.jsx
 │   │   └── index.css
 │   └── package.json
 │
 ├── server/
 │   ├── config/
+│   │   └── db.js
 │   ├── controllers/
+│   │   └── authController.js
 │   ├── middleware/
+│   │   └── authMiddleware.js
 │   ├── models/
+│   │   └── User.js
 │   ├── routes/
+│   │   └── authRoutes.js
 │   ├── services/
 │   ├── uploads/
 │   ├── utils/
@@ -167,6 +173,8 @@ npm install
 
 # 🔑 Environment Variables
 
+## Backend
+
 Create a `.env` file inside the `server` directory.
 
 ```env
@@ -178,6 +186,16 @@ JWT_SECRET=your_secret_key
 
 GEMINI_API_KEY=your_gemini_api_key
 ```
+
+## Frontend
+
+Create a `.env` file inside the `client` directory.
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+```
+
+> **Note:** The login/register screens use [Clerk](https://clerk.com) for authentication. Without a `VITE_CLERK_PUBLISHABLE_KEY`, the app shows a setup notice instead of the login form.
 
 ---
 
@@ -224,11 +242,12 @@ http://localhost:5173
 
 # 🎯 Project Roadmap
 
-## Phase 1
+## Phase 1 ✅
 
 - Project Setup
 - MongoDB Integration
-- Authentication
+- Custom JWT Authentication (Backend)
+- Clerk Authentication (Frontend)
 - Landing Page
 
 ## Phase 2
