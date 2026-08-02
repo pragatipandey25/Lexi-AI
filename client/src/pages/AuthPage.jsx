@@ -198,8 +198,6 @@ function AuthPage({ mode, clerkReady = false }) {
                 <div className="flex w-full flex-col items-center">
                   {isRegister ? (
                     <SignUp
-                      routing="path"
-                      path="/register"
                       signInUrl="/login"
                       fallbackRedirectUrl="/"
                       forceRedirectUrl="/"
@@ -207,12 +205,9 @@ function AuthPage({ mode, clerkReady = false }) {
                     />
                   ) : (
                     <SignIn
-                      routing="path"
-                      path="/login"
                       signUpUrl="/register"
                       fallbackRedirectUrl="/"
                       forceRedirectUrl="/"
-                      withSignUp
                       appearance={clerkAppearance}
                     />
                   )}

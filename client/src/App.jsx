@@ -19,13 +19,14 @@ function PublicOnlyRoute({ mode }) {
   );
 }
 
-// Keeps unauthenticated users away from protected pages (e.g. the Home page).
-function ProtectedRoute({ children }) {
+// The website's first screen: guests are sent to the Register page,
+// signed-in users see the Home page.
+function LandingRoute({ children }) {
   return (
     <>
       <SignedIn>{children}</SignedIn>
       <SignedOut>
-        <Navigate to="/login" replace />
+        <Navigate to="/register" replace />
       </SignedOut>
     </>
   );
@@ -38,11 +39,11 @@ function App() {
         path="/"
         element={
           clerkReady ? (
-            <ProtectedRoute>
+            <LandingRoute>
               <Home />
-            </ProtectedRoute>
+            </LandingRoute>
           ) : (
-            <Home />
+            <AuthPage mode="register" />
           )
         }
       />
