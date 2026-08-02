@@ -100,7 +100,7 @@ function MarketingPanel() {
             return (
               <div
                 key={feature.title}
-                className="rounded-[24px] border border-slate-200 bg-white p-4 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_50px_-28px_rgba(37,99,235,0.24)]"
+                className="rounded-3xl border border-slate-200 bg-white p-4 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_50px_-28px_rgba(37,99,235,0.24)]"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
@@ -134,7 +134,7 @@ function SetupNotice({ heading, subtitle }) {
         <p className="mt-3 text-base leading-7 text-slate-600">{subtitle}</p>
       </div>
 
-      <div className="rounded-[24px] border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+      <div className="rounded-3xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
         Add your Clerk publishable key to client/.env to enable this login
         screen.
       </div>
