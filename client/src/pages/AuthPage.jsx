@@ -173,7 +173,7 @@ function AuthPage({ mode, clerkReady = false }) {
           </div>
 
           {clerkReady ? (
-            <section className="mx-auto flex w-full max-w-[430px] flex-col items-center justify-center">
+            <section className="mx-auto flex w-full max-w-107.5 flex-col items-center justify-center">
               <div className="mb-8 w-full text-center lg:text-left">
                 <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
                   {heading}
@@ -184,7 +184,7 @@ function AuthPage({ mode, clerkReady = false }) {
               </div>
 
               <ClerkLoading>
-                <div className="flex min-h-[420px] w-full max-w-[430px] items-center justify-center rounded-[28px] border border-slate-200 bg-white/60">
+                <div className="flex min-h-105 w-full max-w-107.5 items-center justify-center rounded-[28px] border border-slate-200 bg-white/60">
                   <div className="text-center">
                     <FaSpinner className="mx-auto h-6 w-6 animate-spin text-indigo-600" />
                     <p className="mt-3 text-sm text-slate-500">
