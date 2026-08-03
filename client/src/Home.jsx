@@ -1,11 +1,14 @@
 import {
   FaArrowRight,
+  FaArrowRightFromBracket,
   FaArrowDownLong,
   FaBolt,
   FaCircleCheck,
+  FaCircleUser,
   FaFileArrowDown,
   FaFileLines,
   FaGavel,
+  FaGear,
   FaLanguage,
   FaLock,
   FaMagnifyingGlassChart,
@@ -15,8 +18,14 @@ import {
   FaCloudArrowUp,
   FaBrain,
 } from "react-icons/fa6";
-import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
-import { Link } from "react-router-dom";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  useClerk,
+  useUser,
+} from "@clerk/clerk-react";
+import { Link, useNavigate } from "react-router-dom";
 
 // Reusable content blocks keep the page easy to maintain and extend.
 const navLinks = [
@@ -131,8 +140,25 @@ const techStack = [
   "Google Gemini AI",
 ];
 
+// Professional UserButton menu styled to match the LexiAI light theme.
+const userButtonAppearance = {
+  elements: {
+    avatarBox: "h-9 w-9 rounded-full ring-2 ring-white",
+    userButtonPopoverCard:
+      "rounded-2xl border border-slate-200 bg-white shadow-[0_24px_70px_-30px_rgba(15,23,42,0.35)]",
+    userButtonPopoverActionButton:
+      "mx-1 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 hover:text-blue-700",
+    userButtonPopoverActionButtonText: "text-sm font-medium",
+    userButtonPopoverActionButtonIcon: "h-4 w-4 text-slate-500",
+    userPreviewMainIdentifier: "text-sm font-semibold text-slate-900",
+    userPreviewSecondaryIdentifier: "text-xs text-slate-500",
+  },
+};
+
 function Home() {
   const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
+  const navigate = useNavigate();
   const primaryEmail =
     user?.primaryEmailAddress?.emailAddress ||
     user?.emailAddresses?.[0]?.emailAddress ||
@@ -188,12 +214,28 @@ function Home() {
               <div className="flex items-center gap-2.5 rounded-full border border-slate-200 bg-white/80 py-1.5 pl-1.5 pr-4 shadow-sm">
                 <UserButton
                   afterSignOutUrl="/login"
-                  appearance={{
-                    elements: {
-                      avatarBox: "h-9 w-9 rounded-full",
-                    },
-                  }}
-                />
+                  appearance={userButtonAppearance}
+                >
+                  <UserButton.MenuItems>
+                    <UserButton.Action
+                      label="My Profile"
+                      labelIcon={<FaCircleUser className="h-4 w-4" />}
+                      onClick={() => navigate("/profile")}
+                    />
+                    <UserButton.Action
+                      label="Manage Account"
+                      labelIcon={<FaGear className="h-4 w-4" />}
+                      open="manageAccount"
+                    />
+                    <UserButton.Action
+                      label="Sign Out"
+                      labelIcon={
+                        <FaArrowRightFromBracket className="h-4 w-4" />
+                      }
+                      onClick={() => signOut({ redirectUrl: "/login" })}
+                    />
+                  </UserButton.MenuItems>
+                </UserButton>
                 <div className="hidden flex-col leading-tight sm:flex">
                   <span className="text-xs font-semibold text-slate-900">
                     {user?.fullName || (isLoaded ? "My Account" : "Loading...")}

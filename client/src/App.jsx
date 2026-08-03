@@ -2,6 +2,7 @@ import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import AuthPage from "./pages/AuthPage";
+import Profile from "./pages/Profile";
 
 const clerkReady = Boolean(import.meta.env.VITE_CLERK_PUBLISHABLE_KEY);
 
@@ -27,6 +28,18 @@ function LandingRoute({ children }) {
       <SignedIn>{children}</SignedIn>
       <SignedOut>
         <Navigate to="/register" replace />
+      </SignedOut>
+    </>
+  );
+}
+
+// Signed-in-only wrapper for the Profile page.
+function ProtectedRoute({ children }) {
+  return (
+    <>
+      <SignedIn>{children}</SignedIn>
+      <SignedOut>
+        <Navigate to="/login" replace />
       </SignedOut>
     </>
   );
@@ -64,6 +77,18 @@ function App() {
             <PublicOnlyRoute mode="register" />
           ) : (
             <AuthPage mode="register" />
+          )
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          clerkReady ? (
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          ) : (
+            <Navigate to="/" replace />
           )
         }
       />
