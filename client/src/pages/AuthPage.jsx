@@ -80,9 +80,11 @@ function MarketingPanel() {
 
         <div>
           <div className="inline-flex items-center gap-4">
-            <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#2563eb,#8b5cf6)] text-white shadow-lg shadow-blue-500/20">
-              L
-            </div>
+            <img
+              src="/LexiAI-Logo.png"
+              alt="LexiAI logo"
+              className="h-14 w-14 rounded-2xl object-contain shadow-lg shadow-blue-500/20"
+            />
             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
               LexiAI
             </h1>

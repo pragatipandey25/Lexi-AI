@@ -146,9 +146,11 @@ function Home() {
             href="#home"
             className="inline-flex items-center gap-2 text-xl font-semibold tracking-tight text-slate-900 transition hover:text-blue-600"
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-sm font-bold text-white shadow-lg shadow-blue-500/20">
-              L
-            </span>
+            <img
+              src="/LexiAI-Logo.png"
+              alt="LexiAI logo"
+              className="h-10 w-10 rounded-2xl object-contain shadow-lg shadow-blue-500/20"
+            />
             LexiAI
           </a>
 
@@ -540,9 +542,11 @@ function Home() {
               href="#home"
               className="inline-flex items-center gap-2 text-xl font-semibold text-slate-900"
             >
-              <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-blue-600 to-violet-600 text-sm font-bold text-white">
-                L
-              </span>
+              <img
+                src="/LexiAI-Logo.png"
+                alt="LexiAI logo"
+                className="h-10 w-10 rounded-2xl object-contain"
+              />
               LexiAI
             </a>
             <p className="mt-4 max-w-md leading-7 text-slate-600">
