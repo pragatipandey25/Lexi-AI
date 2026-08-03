@@ -4,7 +4,7 @@ const validator = require("validator");
 /**
  * User Schema
  * Defines the structure of user documents in MongoDB.
- * Password hashing is handled in the authentication controller.
+ * Credentials are managed entirely by Clerk.
  */
 
 const userSchema = new mongoose.Schema(
@@ -29,14 +29,6 @@ const userSchema = new mongoose.Schema(
         validator: validator.isEmail,
         message: "Please enter a valid email address",
       },
-    },
-
-    // Password (hashed)
-    password: {
-      type: String,
-      required: [true, "Password is required"],
-      minlength: [6, "Password must be at least 6 characters"],
-      select: false,
     },
 
     // User Role

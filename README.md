@@ -28,7 +28,8 @@ LexiAI allows users to upload legal documents and uses AI to:
 - User Login (Clerk)
 - Social & Email/Password sign-in via Clerk
 - Session Management & User Profiles
-- JWT Authentication (Backend API)
+- Clerk is the **single authentication provider** (no custom JWT/bcrypt)
+- Backend protected APIs verify Clerk JWT tokens via `@clerk/express`
 - Role-based Access (User/Admin)
 
 ## AI Document Analysis
@@ -75,8 +76,7 @@ LexiAI allows users to upload legal documents and uses AI to:
 - Express.js 5
 - MongoDB
 - Mongoose 9
-- JWT Authentication
-- bcrypt
+- Clerk Authentication (`@clerk/express`)
 - Multer
 
 ## AI
@@ -113,14 +113,10 @@ LexiAI/
 ├── server/
 │   ├── config/
 │   │   └── db.js
-│   ├── controllers/
-│   │   └── authController.js
 │   ├── middleware/
 │   │   └── authMiddleware.js
 │   ├── models/
 │   │   └── User.js
-│   ├── routes/
-│   │   └── authRoutes.js
 │   ├── services/
 │   ├── uploads/
 │   ├── utils/
@@ -182,7 +178,7 @@ PORT=5000
 
 MONGO_URI=your_mongodb_connection_string
 
-JWT_SECRET=your_secret_key
+CLERK_SECRET_KEY=your_clerk_secret_key
 
 GEMINI_API_KEY=your_gemini_api_key
 ```
@@ -195,7 +191,7 @@ Create a `.env` file inside the `client` directory.
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
 ```
 
-> **Note:** The login/register screens use [Clerk](https://clerk.com) for authentication. Without a `VITE_CLERK_PUBLISHABLE_KEY`, the app shows a setup notice instead of the login form.
+> **Note:** The login/register screens use [Clerk](https://clerk.com) as the single authentication provider. Without a `VITE_CLERK_PUBLISHABLE_KEY`, the app shows a setup notice instead of the login form. The backend verifies Clerk JWTs using the `CLERK_SECRET_KEY` via `@clerk/express`.
 
 ---
 
@@ -233,10 +229,11 @@ http://localhost:5173
 
 # 📡 Current API Endpoints
 
-| Method | Endpoint           | Description   |
-| ------ | ------------------ | ------------- |
-| POST   | /api/auth/register | Register User |
-| POST   | /api/auth/login    | Login User    |
+| Method | Endpoint | Description                   |
+| ------ | -------- | ----------------------------- |
+| GET    | /        | Health check (backend status) |
+
+> **Auth Note:** Registration and login are handled entirely by Clerk on the frontend. There are no custom `/api/auth/register` or `/api/auth/login` endpoints. Protected backend routes use the `requireAuth` middleware from `@clerk/express` to verify Clerk JWTs.
 
 ---
 
@@ -246,8 +243,8 @@ http://localhost:5173
 
 - Project Setup
 - MongoDB Integration
-- Custom JWT Authentication (Backend)
-- Clerk Authentication (Frontend)
+- Clerk as the Single Authentication Provider (Frontend + Backend)
+- Clerk JWT Verification for Protected APIs (Backend)
 - Landing Page
 
 ## Phase 2
