@@ -15,6 +15,7 @@ import {
   FaScaleBalanced,
   FaCloudArrowUp,
   FaBrain,
+  FaTriangleExclamation,
 } from "react-icons/fa6";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -523,34 +524,144 @@ function Home() {
         </section>
 
         <section id="contact" className="scroll-mt-24 py-20 sm:py-24">
-          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-            <div className="overflow-hidden rounded-4xl border border-slate-200 bg-linear-to-r from-slate-900 via-blue-900 to-violet-900 px-6 py-12 text-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] sm:px-10 sm:py-14">
-              <div className="max-w-3xl">
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
-                  Call To Action
-                </p>
-                <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-                  Ready to Understand Your Legal Documents?
-                </h2>
-                <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
-                  Start analyzing legal papers with a clearer, faster, and more
-                  confident workflow. LexiAI helps you spot risks, understand
-                  clauses, and move forward with certainty.
-                </p>
+          <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
+            <div className="relative">
+              {/* Floating mini card — top left */}
+              <div className="absolute -left-10 top-8 hidden animate-float rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(37,99,235,0.18)] lg:block">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <FaCircleCheck aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Analysis Complete
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      Employment Contract.pdf
+                    </p>
+                  </div>
+                </div>
+              </div>
 
-                <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                  <a
-                    href="#features"
-                    className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-slate-900 transition hover:bg-blue-50"
-                  >
-                    Analyze Document
-                  </a>
-                  <a
-                    href="#home"
-                    className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
-                  >
-                    Create Account
-                  </a>
+              {/* Floating mini card — right middle */}
+              <div className="absolute -right-10 top-1/2 hidden -translate-y-1/2 animate-float-delay rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(37,99,235,0.18)] lg:block">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+                    <FaTriangleExclamation
+                      aria-hidden="true"
+                      className="h-4 w-4 text-amber-500"
+                    />
+                    Clause 8
+                  </div>
+                  <p className="text-xs text-slate-500">Termination Risk</p>
+                </div>
+              </div>
+
+              {/* Floating mini card — bottom left */}
+              <div className="absolute -bottom-8 left-10 hidden animate-float rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(37,99,235,0.18)] lg:block">
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                    <FaLock aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold text-slate-900">
+                      Secure Upload
+                    </p>
+                    <p className="text-xs text-slate-500">AES-256 Encryption</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative mx-auto max-w-4xl overflow-hidden rounded-4xl border border-white/10 bg-linear-to-r from-[#0F172A] via-[#1E3A8A] to-[#6D28D9] px-6 py-12 text-white shadow-[0_25px_60px_rgba(37,99,235,0.18)] transition duration-300 hover:scale-[1.01] sm:px-12 sm:py-16">
+                <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-violet-500/30 blur-3xl" />
+                <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-blue-500/30 blur-3xl" />
+
+                <div className="relative">
+                  <p className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-blue-200">
+                    <FaBrain aria-hidden="true" className="h-4 w-4" />
+                    AI Legal Analysis
+                  </p>
+
+                  <h2 className="mt-5 flex items-center gap-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                    <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-200">
+                      <FaFileLines aria-hidden="true" className="h-6 w-6" />
+                    </span>
+                    Ready to Upload Your Legal Document?
+                  </h2>
+
+                  <p className="mt-6 max-w-2xl text-base leading-8 text-slate-300">
+                    Get AI-powered clause explanations, risk detection, and
+                    plain-language summaries in under 30 seconds.
+                  </p>
+
+                  {/* Small statistics */}
+                  <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-200">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      95% Clause Detection
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      30 sec Average Analysis
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      10+ Legal Document Types
+                    </span>
+                  </div>
+
+                  {/* Green checklist */}
+                  <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-200">
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      AI Clause Analysis
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      Risk Detection
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      Plain Language
+                    </span>
+                    <span className="inline-flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400">
+                        <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                      </span>
+                      Secure Processing
+                    </span>
+                  </div>
+
+                  <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                    <a
+                      href="#features"
+                      className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_18px_40px_rgba(255,255,255,0.25)]"
+                    >
+                      <FaCloudArrowUp
+                        aria-hidden="true"
+                        className="mr-2 h-4 w-4"
+                      />
+                      Upload Document
+                    </a>
+                    <a
+                      href="#home"
+                      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:-translate-y-[3px] hover:bg-white/15 hover:shadow-[0_18px_40px_rgba(255,255,255,0.15)]"
+                    >
+                      View Sample Report
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
