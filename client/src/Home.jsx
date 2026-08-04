@@ -1,6 +1,5 @@
 import {
   FaArrowRight,
-  FaArrowRightFromBracket,
   FaArrowDownLong,
   FaBolt,
   FaCircleCheck,
@@ -8,7 +7,6 @@ import {
   FaFileArrowDown,
   FaFileLines,
   FaGavel,
-  FaGear,
   FaLanguage,
   FaLock,
   FaMagnifyingGlassChart,
@@ -18,13 +16,7 @@ import {
   FaCloudArrowUp,
   FaBrain,
 } from "react-icons/fa6";
-import {
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useClerk,
-  useUser,
-} from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Reusable content blocks keep the page easy to maintain and extend.
@@ -157,7 +149,6 @@ const userButtonAppearance = {
 
 function Home() {
   const { user, isLoaded } = useUser();
-  const { signOut } = useClerk();
   const navigate = useNavigate();
   const primaryEmail =
     user?.primaryEmailAddress?.emailAddress ||
@@ -222,18 +213,8 @@ function Home() {
                       labelIcon={<FaCircleUser className="h-4 w-4" />}
                       onClick={() => navigate("/profile")}
                     />
-                    <UserButton.Action
-                      label="Manage Account"
-                      labelIcon={<FaGear className="h-4 w-4" />}
-                      open="manageAccount"
-                    />
-                    <UserButton.Action
-                      label="Sign Out"
-                      labelIcon={
-                        <FaArrowRightFromBracket className="h-4 w-4" />
-                      }
-                      onClick={() => signOut({ redirectUrl: "/login" })}
-                    />
+                    <UserButton.Action label="manageAccount" />
+                    <UserButton.Action label="signOut" />
                   </UserButton.MenuItems>
                 </UserButton>
                 <div className="hidden flex-col leading-tight sm:flex">

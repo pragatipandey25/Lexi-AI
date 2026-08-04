@@ -1,17 +1,9 @@
-import {
-  SignedIn,
-  SignedOut,
-  UserButton,
-  useClerk,
-  useUser,
-} from "@clerk/clerk-react";
+import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  FaArrowRightFromBracket,
   FaCalendarDays,
   FaEnvelope,
   FaFingerprint,
-  FaGear,
   FaIdCard,
   FaShieldHalved,
 } from "react-icons/fa6";
@@ -44,7 +36,6 @@ function formatJoinedDate(value) {
 
 function Profile() {
   const { user, isLoaded } = useUser();
-  const { signOut } = useClerk();
   const navigate = useNavigate();
 
   const fullName = user?.fullName || "My Account";
@@ -93,18 +84,8 @@ function Profile() {
                       labelIcon={<FaIdCard className="h-4 w-4" />}
                       onClick={() => navigate("/profile")}
                     />
-                    <UserButton.Action
-                      label="Manage Account"
-                      labelIcon={<FaGear className="h-4 w-4" />}
-                      open="manageAccount"
-                    />
-                    <UserButton.Action
-                      label="Sign Out"
-                      labelIcon={
-                        <FaArrowRightFromBracket className="h-4 w-4" />
-                      }
-                      onClick={() => signOut({ redirectUrl: "/login" })}
-                    />
+                    <UserButton.Action label="manageAccount" />
+                    <UserButton.Action label="signOut" />
                   </UserButton.MenuItems>
                 </UserButton>
               </div>
