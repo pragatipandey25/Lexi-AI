@@ -647,7 +647,7 @@ function Home() {
                   <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                     <a
                       href="#features"
-                      className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-[3px] hover:shadow-[0_18px_40px_rgba(255,255,255,0.25)]"
+                      className="inline-flex items-center justify-center rounded-full bg-white px-8 py-4 text-sm font-semibold text-slate-900 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.75 hover:shadow-[0_18px_40px_rgba(255,255,255,0.25)]"
                     >
                       <FaCloudArrowUp
                         aria-hidden="true"
@@ -657,7 +657,7 @@ function Home() {
                     </a>
                     <a
                       href="#home"
-                      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:-translate-y-[3px] hover:bg-white/15 hover:shadow-[0_18px_40px_rgba(255,255,255,0.15)]"
+                      className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-8 py-4 text-sm font-semibold text-white backdrop-blur transition duration-300 hover:-translate-y-0.75 hover:bg-white/15 hover:shadow-[0_18px_40px_rgba(255,255,255,0.15)]"
                     >
                       View Sample Report
                     </a>
