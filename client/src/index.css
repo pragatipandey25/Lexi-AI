@@ -1,16 +1,20 @@
 @import "tailwindcss";
 
-@theme {
-  --animate-float: float 5s ease-in-out infinite;
-  --animate-float-delay: float 5s ease-in-out 2.5s infinite;
+/* Custom float animation for the CTA floating cards */
+.animate-float {
+  animation: lexiai-float 5s ease-in-out infinite;
+}
 
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
+.animate-float-delay {
+  animation: lexiai-float 5s ease-in-out 2.5s infinite;
+}
+
+@keyframes lexiai-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
   }
 }
