@@ -524,7 +524,7 @@ function Home() {
         </section>
 
         <section id="contact" className="scroll-mt-24 py-20 sm:py-24">
-          <div className="mx-auto max-w-[1100px] px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-275 px-4 sm:px-6 lg:px-8">
             <div className="relative">
               {/* Floating mini card — top left */}
               <div className="absolute -left-10 top-8 hidden animate-float rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_25px_60px_rgba(37,99,235,0.18)] lg:block">
