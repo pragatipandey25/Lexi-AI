@@ -16,6 +16,11 @@ import {
   FaCloudArrowUp,
   FaBrain,
   FaTriangleExclamation,
+  FaGithub,
+  FaLinkedin,
+  FaEnvelope,
+  FaLocationDot,
+  FaSchool,
 } from "react-icons/fa6";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/clerk-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -125,12 +130,52 @@ const stats = [
 ];
 
 const quickLinks = ["Home", "Features", "About", "Contact"];
+const coreFeatures = [
+  "AI Clause Analysis",
+  "Risk Detection",
+  "Plain Language Summary",
+  "Secure Document Upload",
+  "Download Analysis Report",
+];
 const techStack = [
   "React",
   "Node.js",
-  "MongoDB",
   "Express",
+  "MongoDB",
+  "Clerk Authentication",
   "Google Gemini AI",
+  "Tailwind CSS",
+];
+const socialLinks = [
+  {
+    label: "GitHub",
+    href: "https://github.com/pragatipandey25",
+    icon: FaGithub,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/pragati-pandey-25f2006/",
+    icon: FaLinkedin,
+  },
+  {
+    label: "Email",
+    href: "mailto:pragatipandey454@gmail.com",
+    icon: FaEnvelope,
+  },
+];
+const contactInfo = [
+  {
+    label: "Kanpur, Uttar Pradesh, India",
+    icon: FaLocationDot,
+  },
+  {
+    label: "231807@kit.ac.in",
+    icon: FaEnvelope,
+  },
+  {
+    label: "Kanpur Institute of Technology",
+    icon: FaSchool,
+  },
 ];
 
 // Professional UserButton menu styled to match the LexiAI light theme.
@@ -669,64 +714,134 @@ function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1fr_auto_auto] lg:px-8">
-          <div>
-            <a
-              href="#home"
-              className="inline-flex items-center gap-2 text-xl font-semibold text-slate-900"
-            >
-              <img
-                src="/LexiAI-Logo.png"
-                alt="LexiAI logo"
-                className="h-10 w-10 rounded-2xl object-contain"
-              />
-              LexiAI
-            </a>
-            <p className="mt-4 max-w-md leading-7 text-slate-600">
-              AI-powered legal document assistance for clearer understanding,
-              faster reviews, and more confident decisions.
-            </p>
-          </div>
+      <footer className="footer-fade border-t border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="grid gap-12 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-4 lg:gap-8">
+            {/* Column 1 — Brand */}
+            <div className="flex flex-col items-center sm:items-start">
+              <a
+                href="#home"
+                className="inline-flex items-center gap-2 text-xl font-semibold text-slate-900"
+              >
+                <img
+                  src="/LexiAI-Logo.png"
+                  alt="LexiAI logo"
+                  className="h-10 w-10 rounded-2xl object-contain shadow-lg shadow-blue-500/20"
+                />
+                LexiAI
+              </a>
+              <p className="mt-5 max-w-xs text-sm leading-6 text-slate-600">
+                AI-powered legal document assistant that simplifies contracts,
+                detects legal risks, and explains complex clauses in plain
+                language for faster, smarter decision-making.
+              </p>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Quick Links
-            </h3>
-            <ul className="mt-4 space-y-3 text-slate-600">
-              {quickLinks.map((item) => (
-                <li key={item}>
+              <div className="mt-6 flex flex-wrap justify-center gap-3 sm:justify-start">
+                {socialLinks.map(({ label, href, icon: Icon }) => (
                   <a
-                    href={`#${item.toLowerCase()}`}
-                    className="transition hover:text-blue-600"
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-100 text-slate-600 transition duration-300 hover:scale-105 hover:bg-blue-600 hover:text-white"
                   >
-                    {item}
+                    <Icon aria-hidden="true" className="h-5 w-5" />
                   </a>
-                </li>
-              ))}
-            </ul>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 2 — Quick Links */}
+            <div className="flex flex-col items-center sm:items-start">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Quick Links
+              </h3>
+              <ul className="mt-5 space-y-3 text-sm">
+                {quickLinks.map((item) => (
+                  <li key={item}>
+                    <a
+                      href={`#${item.toLowerCase()}`}
+                      className="footer-link relative text-slate-600 transition duration-300 after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-0 after:bg-blue-600 hover:text-blue-600 hover:after:w-full"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3 — Core Features */}
+            <div className="flex flex-col items-center sm:items-start">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Core Features
+              </h3>
+              <ul className="mt-5 space-y-3 text-sm">
+                {coreFeatures.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-center gap-2.5 text-slate-600"
+                  >
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                      <FaCircleCheck aria-hidden="true" className="h-3 w-3" />
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 4 — Contact */}
+            <div className="flex flex-col items-center sm:items-start">
+              <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Contact
+              </h3>
+              <ul className="mt-5 space-y-3 text-sm">
+                {contactInfo.map(({ label, icon: Icon }) => (
+                  <li
+                    key={label}
+                    className="flex items-center gap-2.5 text-slate-600"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-blue-600">
+                      <Icon aria-hidden="true" className="h-4 w-4" />
+                    </span>
+                    {label}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
-          <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-              Tech Stack
-            </h3>
-            <ul className="mt-4 flex max-w-xs flex-wrap gap-3 text-sm text-slate-600">
+          {/* Built With — Tech Stack */}
+          <div className="mt-16 text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Built With
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               {techStack.map((item) => (
-                <li
+                <span
                   key={item}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2"
+                  className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-medium text-slate-600 transition duration-300 hover:-translate-y-0.5 hover:border-blue-400 hover:text-blue-700"
                 >
                   {item}
-                </li>
+                </span>
               ))}
-            </ul>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-slate-200 py-5">
-          <p className="text-center text-sm text-slate-500">
-            © 2026 LexiAI. Final Year Project.
+        {/* Divider + Copyright */}
+        <div className="border-t border-slate-200 py-8">
+          <p className="px-4 text-center text-sm leading-6 text-slate-500">
+            © 2026{" "}
+            <span className="bg-linear-to-r from-blue-600 to-violet-600 bg-clip-text font-semibold text-transparent">
+              LexiAI
+            </span>{" "}
+            • AI-Powered Legal Document Analyzer
+          </p>
+          <p className="mx-auto mt-2 max-w-2xl px-4 text-center text-xs leading-5 text-slate-400">
+            Developed as a Final Year Project using React, Node.js, Express,
+            MongoDB, Clerk Authentication, and Google Gemini AI.
           </p>
         </div>
       </footer>
