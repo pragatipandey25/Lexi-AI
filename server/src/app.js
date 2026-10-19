@@ -1,0 +1,82 @@
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+
+// Routes
+import authRoutes from './routes/authRoutes.js';
+import documentRoutes from './routes/documentRoutes.js';
+import analysisRoutes from './routes/analysisRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import obligationRoutes from './routes/obligationRoutes.js';
+import compareRoutes from './routes/compareRoutes.js';
+import reportRoutes from './routes/reportRoutes.js';
+import dashboardRoutes from './routes/dashboardRoutes.js';
+import { notFoundHandler, errorHandler } from './middleware/errorHandler.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const app = express();
+
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Security headers
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
+
+// CORS configuration
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    credentials: true,
+  })
+);
+
+// Logging
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
+
+// Body parsers
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
+
+// Serve uploaded documents safely (authenticated in production, static for dev)
+app.use('/uploads', express.static(uploadsDir));
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    service: 'LexiAI Legal Document Assistant API',
+    version: '1.0.0',
+  });
+});
+
+// Mount Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/documents', documentRoutes);
+app.use('/api/analysis', analysisRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/obligations', obligationRoutes);
+app.use('/api/compare', compareRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+
+// Fallback handlers
+app.use(notFoundHandler);
+app.use(errorHandler);
+
+export default app;

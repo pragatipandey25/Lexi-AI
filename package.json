@@ -1,0 +1,22 @@
+{
+  "name": "lexiai-major-project",
+  "version": "1.0.0",
+  "description": "LexiAI - AI-Powered Legal Document Assistant | Major Project",
+  "scripts": {
+    "server": "npm --prefix server run dev",
+    "client": "npm --prefix client run dev",
+    "test:server": "npm --prefix server test",
+    "build:client": "npm --prefix client run build"
+  },
+  "keywords": [
+    "mern",
+    "legal-ai",
+    "document-assistant",
+    "gemini-ai",
+    "tesseract-ocr",
+    "react",
+    "mongodb"
+  ],
+  "author": "Department of Computer Science & Engineering",
+  "license": "ISC"
+}
