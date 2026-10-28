@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <defs>
+    <linearGradient id="lexiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#354cdb" />
+      <stop offset="60%" stop-color="#1e2c8f" />
+      <stop offset="100%" stop-color="#0f1742" />
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#b4c6fc" />
+    </linearGradient>
+  </defs>
+  <!-- Squircle Base -->
+  <rect width="32" height="32" rx="8" fill="url(#lexiGrad)" />
+  <rect x="0.5" y="0.5" width="31" height="31" rx="7.5" fill="none" stroke="#819efa" stroke-width="1" stroke-opacity="0.4" />
+  
+  <!-- Centered LexiAI Shield Icon -->
+  <g transform="translate(6, 6) scale(0.8333)">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" 
+          fill="none" 
+          stroke="url(#shieldFill)" 
+          stroke-width="2.4" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+    <!-- AI Intelligence Spark -->
+    <path d="M12 8 L12.7 10.8 L15.5 11.5 L12.7 12.2 L12 15 L11.3 12.2 L8.5 11.5 L11.3 10.8 Z" 
+          fill="#ffffff" />
+  </g>
+</svg>
