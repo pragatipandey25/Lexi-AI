@@ -15,7 +15,7 @@ import {
 import api from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
-export const SummaryView = ({ document, analysis, onAnalysisUpdated }) => {
+export const SummaryView = ({ document, analysis, onAnalysisUpdated, onNavigateTab }) => {
   const { hasValidAiKey } = useAuth();
   const [analyzing, setAnalyzing] = useState(false);
   const [error, setError] = useState(null);
@@ -100,7 +100,7 @@ export const SummaryView = ({ document, analysis, onAnalysisUpdated }) => {
             {documentType || 'Contract'}
           </span>
           <span className="text-xs text-slate-400 font-mono">
-            Analyzed via Gemini 1.5 Flash
+            Analyzed via Gemini Legal AI
           </span>
         </div>
 
@@ -202,60 +202,54 @@ export const SummaryView = ({ document, analysis, onAnalysisUpdated }) => {
         </div>
       </div>
 
-      {/* Key Clauses Breakdown */}
-      {keyClauses?.length > 0 && (
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden space-y-4 p-6">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <h3 className="font-bold text-sm text-slate-900">Key Clauses & Plain-Language Translations</h3>
-              <p className="text-xs text-slate-500">Deconstructing complicated contract wording into simple terms</p>
-            </div>
-            <span className="text-xs font-mono font-semibold px-2.5 py-1 bg-slate-100 rounded-lg text-slate-600">
-              {keyClauses.length} Clauses
-            </span>
-          </div>
-
-          <div className="space-y-4">
-            {keyClauses.map((clause, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <span className="w-5 h-5 rounded-full bg-brand-100 text-brand-700 font-bold text-[10px] flex items-center justify-center">
-                      {idx + 1}
-                    </span>
-                    <h4 className="font-bold text-xs text-slate-900">{clause.title}</h4>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-[10px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">
-                      {clause.sectionOrPage || 'Section'}
-                    </span>
-                    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
-                      clause.importance === 'Crucial'
-                        ? 'bg-red-100 text-red-800'
-                        : clause.importance === 'Important'
-                        ? 'bg-amber-100 text-amber-800'
-                        : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {clause.importance}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-800">
-                  <span className="font-semibold text-brand-700 block mb-1">Plain Language Meaning:</span>
-                  <p className="leading-relaxed">{clause.plainExplanation}</p>
-                </div>
-
-                {clause.originalText && (
-                  <p className="text-[11px] text-slate-500 italic bg-slate-100/60 p-2.5 rounded-lg border border-slate-200 font-mono">
-                    &quot;{clause.originalText}&quot;
-                  </p>
-                )}
-              </div>
-            ))}
-          </div>
+      {/* Deep-Dive Module Launchpad */}
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm space-y-4">
+        <div>
+          <h3 className="font-bold text-sm text-slate-900">Next Steps & Deep-Dive Analysis</h3>
+          <p className="text-xs text-slate-500">Jump directly into the specialized legal intelligence modules for this contract</p>
         </div>
-      )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <button
+            onClick={() => onNavigateTab && onNavigateTab('risks')}
+            className="p-4 bg-red-50/50 hover:bg-red-50 border border-red-200 rounded-2xl text-left transition-all group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-red-700">Risk & Anomaly Scanner</span>
+              <ArrowRight className="w-4 h-4 text-red-500 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1">
+              {analysis.risks?.length || 0} flagged clauses ranked by High/Medium/Low liability severity.
+            </p>
+          </button>
+
+          <button
+            onClick={() => onNavigateTab && onNavigateTab('clauses')}
+            className="p-4 bg-brand-50/50 hover:bg-brand-50 border border-brand-200 rounded-2xl text-left transition-all group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-brand-700">Categorized Clauses</span>
+              <ArrowRight className="w-4 h-4 text-brand-500 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1">
+              Search and filter all clauses across 11 legal domains with plain explanations.
+            </p>
+          </button>
+
+          <button
+            onClick={() => onNavigateTab && onNavigateTab('chat')}
+            className="p-4 bg-purple-50/50 hover:bg-purple-50 border border-purple-200 rounded-2xl text-left transition-all group"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-purple-700">Ask Document Chat</span>
+              <ArrowRight className="w-4 h-4 text-purple-500 group-hover:translate-x-1 transition-transform" />
+            </div>
+            <p className="text-[11px] text-slate-600 mt-1">
+              Ask questions grounded strictly in this contract with cited clauses.
+            </p>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Shield,
@@ -10,21 +10,30 @@ import {
   Calendar,
   GitCompare,
   FileDown,
-  BarChart3,
   ArrowRight,
   CheckCircle2,
   Lock,
   Sparkles,
   ChevronRight,
   Eye,
+  Play,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { ExploreInActionModal } from '../components/common/ExploreInActionModal';
 
 export const LandingPage = () => {
   const { user } = useAuth();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedModuleId, setSelectedModuleId] = useState('smart_processing');
+
+  const handleOpenExplore = (moduleId) => {
+    setSelectedModuleId(moduleId);
+    setModalOpen(true);
+  };
 
   const features = [
     {
+      id: 'smart_processing',
       title: 'Smart Document Processing',
       desc: 'High-accuracy text extraction from native digital PDFs combined with Tesseract OCR fallback for scanned pages.',
       icon: FileSearch,
@@ -32,20 +41,23 @@ export const LandingPage = () => {
       badge: 'PDF + OCR',
     },
     {
+      id: 'legal_analysis',
       title: 'AI Legal Analysis',
       desc: 'Executive summaries, party rights & responsibilities, key terms, and plain-language translations of convoluted legalese.',
       icon: Sparkles,
       tag: 'Module 02',
-      badge: 'Gemini 1.5/2.0',
+      badge: 'Gemini 3 Flash',
     },
     {
+      id: 'risk_scanner',
       title: 'Risk & Suspicious Scanner',
       desc: 'Dual-pipeline engine: detects high/med/low legal liability risks while simultaneously catching date conflicts, missing clauses & contradictions.',
       icon: AlertTriangle,
       tag: 'Module 03',
-      badge: 'Severity Ranked',
+      badge: 'Dual-Engine',
     },
     {
+      id: 'document_chat',
       title: 'AI Document Chat',
       desc: 'Ask direct questions grounded exclusively in your contract. Includes specific clause citations and page references.',
       icon: MessageSquare,
@@ -53,6 +65,7 @@ export const LandingPage = () => {
       badge: 'Grounded Q&A',
     },
     {
+      id: 'bilingual_explanations',
       title: 'Bilingual Explanations',
       desc: 'Switch between simple English and colloquial Hindi (हिंदी) explanations for individual clauses or complete agreements.',
       icon: Languages,
@@ -60,13 +73,15 @@ export const LandingPage = () => {
       badge: 'English + Hindi',
     },
     {
+      id: 'clause_categorization',
       title: 'Clause Categorization',
       desc: 'Automatically parses and tags clauses: Liability, Termination, Payment, Confidentiality, Governing Law, IP, and more.',
       icon: Tags,
       tag: 'Module 06',
-      badge: 'Auto-Tagged',
+      badge: '11 Domains',
     },
     {
+      id: 'obligations_tracker',
       title: 'Obligations & Deadlines',
       desc: 'Extracts explicit deadlines, payment milestones, and responsible parties with interactive status tracking (Pending, Completed, Overdue).',
       icon: Calendar,
@@ -74,30 +89,32 @@ export const LandingPage = () => {
       badge: 'Timeline Tracker',
     },
     {
-      title: 'Interactive Dashboard',
-      desc: 'Comprehensive oversight of contract volume, aggregate risk distributions, pending commitments, and document history.',
-      icon: BarChart3,
-      tag: 'Module 08',
-      badge: 'Live Metrics',
-    },
-    {
+      id: 'document_comparison',
       title: 'Document Comparison',
       desc: 'Select two contracts to spot textual differences, clause omissions, payment condition changes, and shifts in risk profile.',
       icon: GitCompare,
-      tag: 'Module 09',
+      tag: 'Module 08',
       badge: 'Side-by-Side Diff',
     },
     {
+      id: 'downloadable_report',
       title: 'Downloadable PDF Report',
       desc: 'Generate professional, executive-ready PDF audit reports complete with findings, clause evidence, and legal disclaimers.',
       icon: FileDown,
-      tag: 'Module 10',
+      tag: 'Module 09',
       badge: 'PDFKit Export',
     },
   ];
 
   return (
     <div className="space-y-24 pb-16">
+      {/* Interactive Feature Demo Modal */}
+      <ExploreInActionModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        initialModuleId={selectedModuleId}
+      />
+
       {/* Hero Section */}
       <section className="relative pt-12 pb-16 lg:pt-20 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.brand.100),theme(colors.slate.50))] opacity-60" />
@@ -137,12 +154,13 @@ export const LandingPage = () => {
                   <span>Start Free Analysis</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
-                <Link
-                  to="/login"
-                  className="w-full sm:w-auto px-7 py-3.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border border-slate-300 shadow-sm flex items-center justify-center transition-all"
+                <button
+                  onClick={() => handleOpenExplore('legal_analysis')}
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border border-slate-300 shadow-sm flex items-center justify-center space-x-2 transition-all"
                 >
-                  <span>Sign In</span>
-                </Link>
+                  <Play className="w-4 h-4 text-brand-600 fill-brand-600" />
+                  <span>Try Interactive Demo</span>
+                </button>
               </>
             )}
           </div>
@@ -160,9 +178,12 @@ export const LandingPage = () => {
           </div>
         </div>
 
-        {/* Visual Preview Teaser Card */}
+        {/* Visual Preview Teaser Card (Clickable to trigger explore modal) */}
         <div className="mt-14 max-w-5xl mx-auto px-4">
-          <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+          <div
+            onClick={() => handleOpenExplore('legal_analysis')}
+            className="cursor-pointer bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden hover:shadow-2xl transition-all group"
+          >
             <div className="bg-slate-900 px-4 py-3 flex items-center justify-between text-xs text-slate-300">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-red-500/80" />
@@ -170,13 +191,15 @@ export const LandingPage = () => {
                 <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
                 <span className="ml-2 font-mono text-slate-400">LexiAI Analysis View — Commercial_Lease_Agreement.pdf</span>
               </div>
-              <span className="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 text-[11px] font-semibold">
-                AI Processed
-              </span>
+              <div className="flex items-center space-x-2">
+                <span className="px-2 py-0.5 rounded bg-brand-500/20 text-brand-300 text-[11px] font-semibold">
+                  Click to Explore in Action
+                </span>
+              </div>
             </div>
 
             <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50/50">
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2 group-hover:border-brand-200 transition-colors">
                 <div className="flex items-center justify-between text-xs font-semibold text-slate-500">
                   <span>EXECUTIVE SUMMARY</span>
                   <span className="text-emerald-600 font-bold">Lease Agreement</span>
@@ -186,7 +209,7 @@ export const LandingPage = () => {
                 </p>
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-red-200 bg-red-50/20 shadow-sm space-y-2">
+              <div className="bg-white p-4 rounded-xl border border-red-200 bg-red-50/20 shadow-sm space-y-2 group-hover:border-red-300 transition-colors">
                 <div className="flex items-center justify-between text-xs font-semibold text-red-600">
                   <span className="flex items-center gap-1">
                     <AlertTriangle className="w-3.5 h-3.5" /> HIGH RISK DETECTED
@@ -198,7 +221,7 @@ export const LandingPage = () => {
                 </p>
               </div>
 
-              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+              <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2 group-hover:border-indigo-200 transition-colors">
                 <div className="flex items-center justify-between text-xs font-semibold text-indigo-600">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" /> UPCOMING DEADLINE
@@ -219,20 +242,21 @@ export const LandingPage = () => {
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <h2 className="text-xs font-bold uppercase tracking-wider text-brand-600">Comprehensive Legal Suite</h2>
           <h3 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            10 Built-In AI Modules Designed for Real Legal Workflows
+            9 Built-In AI Modules Designed for Real Legal Workflows
           </h3>
           <p className="text-sm text-slate-600">
-            From raw scanned PDFs to cross-document comparison and courtroom-ready audit reports.
+            From raw scanned PDFs to cross-document comparison and courtroom-ready audit reports. Click any module to test it live.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, idx) => {
+          {features.map((feature) => {
             const Icon = feature.icon;
             return (
               <div
-                key={idx}
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md hover:border-brand-200 transition-all flex flex-col justify-between group"
+                key={feature.id}
+                onClick={() => handleOpenExplore(feature.id)}
+                className="cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-400 hover:-translate-y-0.5 transition-all flex flex-col justify-between group"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
@@ -257,9 +281,14 @@ export const LandingPage = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center text-xs text-brand-600 font-semibold group-hover:translate-x-1 transition-transform">
-                  <span>Explore in action</span>
-                  <ChevronRight className="w-3.5 h-3.5 ml-1" />
+                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
+                  <span className="inline-flex items-center">
+                    <span>Explore in action</span>
+                    <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="text-[10px] px-2 py-0.5 rounded bg-brand-50 text-brand-700 font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+                    Interactive
+                  </span>
                 </div>
               </div>
             );
@@ -317,14 +346,21 @@ export const LandingPage = () => {
         <p className="text-sm text-slate-600 max-w-xl mx-auto">
           Upload any NDA, Employment Agreement, Commercial Lease, or Service Contract to get started in seconds.
         </p>
-        <div className="pt-2">
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
             to={user ? "/dashboard" : "/register"}
-            className="inline-flex items-center space-x-2 px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/20 transition-all hover:scale-105"
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl shadow-lg shadow-brand-500/20 transition-all hover:scale-105"
           >
             <span>{user ? "Open Dashboard" : "Create Free Account"}</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
+          <button
+            onClick={() => handleOpenExplore('smart_processing')}
+            className="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-7 py-3.5 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border border-slate-300 shadow-sm transition-all"
+          >
+            <Play className="w-4 h-4 text-brand-600 fill-brand-600" />
+            <span>Open Features Workshop</span>
+          </button>
         </div>
       </section>
     </div>

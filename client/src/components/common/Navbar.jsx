@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Shield, Sparkles, Key, LogOut, User, Menu, X, FileText, LayoutDashboard, GitCompare } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { ApiKeyModal } from './ApiKeyModal';
+import { ExploreInActionModal } from './ExploreInActionModal';
 
 export const Navbar = () => {
   const { user, logout, hasValidAiKey } = useAuth();
@@ -10,6 +11,20 @@ export const Navbar = () => {
   const location = useLocation();
   const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isWorkshopOpen, setIsWorkshopOpen] = useState(false);
+  const [workshopInitialModule, setWorkshopInitialModule] = useState('smart_processing');
+
+  useEffect(() => {
+    const handleOpenWorkshop = (e) => {
+      if (e.detail?.moduleId) {
+        setWorkshopInitialModule(e.detail.moduleId);
+      }
+      setIsWorkshopOpen(true);
+    };
+
+    window.addEventListener('open-features-workshop', handleOpenWorkshop);
+    return () => window.removeEventListener('open-features-workshop', handleOpenWorkshop);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -39,12 +54,17 @@ export const Navbar = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
-            <Link
-              to="/#features"
-              className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+            <button
+              onClick={() => {
+                setWorkshopInitialModule('smart_processing');
+                setIsWorkshopOpen(true);
+              }}
+              className="px-3 py-1.5 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors flex items-center space-x-1.5"
+              title="Open interactive Features Workshop"
             >
-              Features
-            </Link>
+              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
+              <span>Features Workshop</span>
+            </button>
 
             {user && (
               <>
@@ -161,6 +181,18 @@ export const Navbar = () => {
         {/* Mobile menu dropdown */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-2">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setWorkshopInitialModule('smart_processing');
+                setIsWorkshopOpen(true);
+              }}
+              className="w-full text-left px-3 py-2.5 rounded-xl text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 flex items-center space-x-2 transition-colors mb-2"
+            >
+              <Sparkles className="w-4 h-4 text-brand-600" />
+              <span>Features Workshop</span>
+            </button>
+
             {user ? (
               <>
                 <div className="px-3 py-2 bg-slate-50 rounded-xl text-sm mb-3">
@@ -229,6 +261,13 @@ export const Navbar = () => {
 
       {/* Global AI Key Modal */}
       <ApiKeyModal isOpen={isKeyModalOpen} onClose={() => setIsKeyModalOpen(false)} />
+
+      {/* Global Features Workshop Modal */}
+      <ExploreInActionModal
+        isOpen={isWorkshopOpen}
+        onClose={() => setIsWorkshopOpen(false)}
+        initialModuleId={workshopInitialModule}
+      />
     </>
   );
 };

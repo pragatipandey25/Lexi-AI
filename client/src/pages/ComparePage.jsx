@@ -21,32 +21,51 @@ export const ComparePage = () => {
   const [doc1Id, setDoc1Id] = useState('');
   const [doc2Id, setDoc2Id] = useState('');
   const [comparing, setComparing] = useState(false);
+  const [loadingSample, setLoadingSample] = useState(false);
   const [comparisonResult, setComparisonResult] = useState(null);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchDocs = async () => {
-      try {
-        const res = await api.get('/documents');
-        if (res.data?.success) {
-          const docs = res.data.data.documents || [];
-          setDocuments(docs);
-          if (docs.length >= 2) {
-            setDoc1Id(docs[0]._id);
-            setDoc2Id(docs[1]._id);
-          } else if (docs.length === 1) {
-            setDoc1Id(docs[0]._id);
-          }
+  const fetchDocs = async () => {
+    try {
+      const res = await api.get('/documents');
+      if (res.data?.success) {
+        const docs = res.data.data.documents || [];
+        setDocuments(docs);
+        if (docs.length >= 2) {
+          setDoc1Id(docs[0]._id);
+          setDoc2Id(docs[1]._id);
+        } else if (docs.length === 1) {
+          setDoc1Id(docs[0]._id);
         }
-      } catch (err) {
-        console.warn('Could not load documents for comparison:', err);
-      } finally {
-        setLoadingDocs(false);
       }
-    };
+    } catch (err) {
+      console.warn('Could not load documents for comparison:', err);
+    } finally {
+      setLoadingDocs(false);
+    }
+  };
 
+  useEffect(() => {
     fetchDocs();
   }, []);
+
+  const handleLoadComparisonPair = async () => {
+    setLoadingSample(true);
+    setError(null);
+    try {
+      // Load baseline sample if needed
+      if (documents.length === 0) {
+        await api.post('/documents/load-sample');
+      }
+      // Load revised counter-draft
+      await api.post('/documents/load-sample?type=comparison');
+      await fetchDocs();
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to load sample comparison contracts');
+    } finally {
+      setLoadingSample(false);
+    }
+  };
 
   const handleCompare = async () => {
     if (!doc1Id || !doc2Id) {
@@ -79,11 +98,33 @@ export const ComparePage = () => {
 
   return (
     <div className="space-y-6 pb-16">
-      <div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Dual Contract Comparison</h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Select any two contracts to spot omissions, compare payment & termination terms, and evaluate risk shifts.
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Dual Contract Comparison</h1>
+          <p className="text-xs text-slate-500 mt-1">
+            Select any two contracts to spot omissions, compare payment & termination terms, and evaluate risk shifts.
+          </p>
+        </div>
+
+        {documents.length < 2 && (
+          <button
+            onClick={handleLoadComparisonPair}
+            disabled={loadingSample}
+            className="px-4 py-2 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 disabled:opacity-50 text-white rounded-xl text-xs font-semibold shadow-md flex items-center space-x-1.5 transition-all hover:scale-105 self-start sm:self-auto"
+          >
+            {loadingSample ? (
+              <>
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <span>Generating Sample Pair...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-3.5 h-3.5 text-brand-200" />
+                <span>Load Sample Pair (1-Click Demo)</span>
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Contract Selection Box */}

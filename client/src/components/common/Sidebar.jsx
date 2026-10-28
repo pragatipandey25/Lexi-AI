@@ -58,7 +58,7 @@ export const Sidebar = () => {
         }`}>
           <div className="flex items-center space-x-2 font-semibold mb-1">
             <Sparkles className={`w-3.5 h-3.5 ${hasValidAiKey ? 'text-brand-600' : 'text-amber-600'}`} />
-            <span>{hasValidAiKey ? 'Gemini 1.5/2.0 Engine' : 'AI Engine Inactive'}</span>
+            <span>{hasValidAiKey ? 'Gemini Legal AI Active' : 'AI Engine Inactive'}</span>
           </div>
           <p className="text-[11px] text-slate-500 leading-tight">
             {hasValidAiKey

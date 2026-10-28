@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   X,
   FileCheck,
+  Sparkles,
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -20,9 +21,25 @@ export const UploadPage = () => {
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [loadingSample, setLoadingSample] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [processingStage, setProcessingStage] = useState('');
   const [error, setError] = useState(null);
+
+  const handleLoadSample = async () => {
+    setLoadingSample(true);
+    setError(null);
+    try {
+      const res = await api.post('/documents/load-sample');
+      if (res.data?.success) {
+        navigate(`/documents/${res.data.data._id}`);
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || 'Failed to load sample contract');
+    } finally {
+      setLoadingSample(false);
+    }
+  };
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -119,12 +136,32 @@ export const UploadPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8 pb-12">
-      <div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Upload Legal Document</h1>
-        <p className="text-xs text-slate-500 mt-1">
-          Upload any contract, NDA, commercial lease, or legal agreement in PDF format.
-        </p>
+    <div className="max-w-3xl mx-auto space-y-6 pb-12">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Upload Legal Document</h1>
+          <p className="text-xs text-slate-500 mt-1">
+            Upload any contract, NDA, commercial lease, or legal agreement in PDF format.
+          </p>
+        </div>
+
+        <button
+          onClick={handleLoadSample}
+          disabled={loadingSample || uploading}
+          className="px-4 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-xl text-xs font-semibold shadow-md flex items-center space-x-2 self-start sm:self-auto transition-all hover:scale-105"
+        >
+          {loadingSample ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Generating Sample Contract...</span>
+            </>
+          ) : (
+            <>
+              <Sparkles className="w-4 h-4 text-brand-200" />
+              <span>Load Sample Commercial Lease (1-Click Demo)</span>
+            </>
+          )}
+        </button>
       </div>
 
       {error && (

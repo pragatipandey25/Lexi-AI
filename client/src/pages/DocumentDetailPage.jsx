@@ -285,6 +285,7 @@ export const DocumentDetailPage = () => {
             document={document}
             analysis={analysis}
             onAnalysisUpdated={handleAnalysisUpdated}
+            onNavigateTab={setActiveTab}
           />
         )}
 

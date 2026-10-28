@@ -7,6 +7,7 @@ import {
   deleteDocument,
   reprocessDocument,
   downloadDocument,
+  loadSampleDocument,
 } from '../controllers/documentController.js';
 import { protect } from '../middleware/authMiddleware.js';
 import { uploadSinglePdf } from '../middleware/uploadMiddleware.js';
@@ -20,6 +21,7 @@ router.route('/')
   .get(getDocuments);
 
 router.post('/upload', uploadSinglePdf, uploadDocument);
+router.post('/load-sample', loadSampleDocument);
 
 router.route('/:id')
   .get(getDocumentById)

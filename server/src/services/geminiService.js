@@ -1,6 +1,18 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 /**
+ * Supported Gemini models in priority order.
+ * Automatically cascades to next model if a model is unavailable or encounters high demand (503/429/404).
+ */
+const CANDIDATE_MODELS = [
+  'gemini-3-flash-preview',
+  'gemini-3.8-flash',
+  'gemini-3.8-flash-lite',
+  'gemini-2.5-flash-lite',
+  'gemini-flash-latest',
+];
+
+/**
  * Resolves the active Gemini API key (user-specific key takes priority over server key)
  */
 export const getActiveApiKey = (userApiKey = null) => {
@@ -15,14 +27,43 @@ export const getActiveApiKey = (userApiKey = null) => {
 };
 
 /**
- * Helper to get Gemini generative model instance
+ * Cleans code fences (```json ... ```) from model output for resilient JSON parsing
  */
-const getModel = (apiKey, jsonMode = true) => {
+const cleanJson = (raw) => {
+  if (!raw) return '{}';
+  let cleaned = raw.trim();
+  if (cleaned.startsWith('```json')) {
+    cleaned = cleaned.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+  } else if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  }
+  return cleaned.trim();
+};
+
+/**
+ * Executes a Gemini request with automated multi-model fallback
+ */
+const generateWithFallback = async (apiKey, prompt, jsonMode = true) => {
   const genAI = new GoogleGenerativeAI(apiKey);
-  return genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
-    generationConfig: jsonMode ? { responseMimeType: 'application/json' } : undefined,
-  });
+  let lastError = null;
+
+  for (const modelName of CANDIDATE_MODELS) {
+    try {
+      const model = genAI.getGenerativeModel({
+        model: modelName,
+        generationConfig: jsonMode ? { responseMimeType: 'application/json' } : undefined,
+      });
+
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      return { text, modelUsed: modelName };
+    } catch (err) {
+      console.warn(`[Gemini Fallback] Model '${modelName}' failed (${err.message?.slice(0, 80)}...). Trying next candidate...`);
+      lastError = err;
+    }
+  }
+
+  throw new Error(`All available Gemini models failed: ${lastError?.message || 'Service unavailable'}`);
 };
 
 /**
@@ -126,12 +167,11 @@ ${safeText}
 </UNTRUSTED_DOCUMENT_CORPUS>
 `;
 
-  const model = getModel(apiKey, true);
-  const result = await model.generateContent(prompt);
-  const responseText = result.response.text();
+  const { text: responseText, modelUsed } = await generateWithFallback(apiKey, prompt, true);
 
   try {
-    const parsed = JSON.parse(responseText);
+    const parsed = JSON.parse(cleanJson(responseText));
+    parsed._modelUsed = modelUsed;
     return parsed;
   } catch (parseError) {
     console.error('[Gemini Analysis] Failed to parse model JSON:', responseText.slice(0, 300));
@@ -186,14 +226,11 @@ ${formattedHistory}
 User Question: ${userQuestion}
 `;
 
-  const model = getModel(apiKey, true);
-  const result = await model.generateContent(prompt);
-  const responseText = result.response.text();
+  const { text: responseText } = await generateWithFallback(apiKey, prompt, true);
 
   try {
-    return JSON.parse(responseText);
+    return JSON.parse(cleanJson(responseText));
   } catch (err) {
-    // Fallback if model returned plain string
     return {
       answer: responseText,
       sources: [],
@@ -250,7 +287,6 @@ ${safeDoc2}
 </DOCUMENT_2>
 `;
 
-  const model = getModel(apiKey, true);
-  const result = await model.generateContent(prompt);
-  return JSON.parse(result.response.text());
+  const { text: responseText } = await generateWithFallback(apiKey, prompt, true);
+  return JSON.parse(cleanJson(responseText));
 };

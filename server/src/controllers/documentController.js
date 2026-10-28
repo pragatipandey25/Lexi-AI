@@ -1,7 +1,11 @@
 import fs from 'fs';
 import path from 'path';
+import PDFDocument from 'pdfkit';
 import { Document } from '../models/Document.js';
+import { Analysis } from '../models/Analysis.js';
+import { Obligation } from '../models/Obligation.js';
 import { processPdfDocument } from '../services/pdfService.js';
+import { analyzeLegalDocument } from '../services/geminiService.js';
 import { successResponse, errorResponse } from '../utils/apiResponse.js';
 
 // @desc    Upload new PDF document and extract text
@@ -262,5 +266,133 @@ export const downloadDocument = async (req, res, next) => {
     return res.download(document.filePath, document.originalName);
   } catch (error) {
     next(error);
+  }
+};
+
+// @desc    One-click sample document ingestion for instant viva / demo testing
+// @route   POST /api/documents/load-sample
+// @access  Private
+export const loadSampleDocument = async (req, res, next) => {
+  try {
+    const uploadsDir = path.join(process.cwd(), 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const isComparisonDraft = req.body?.type === 'comparison' || req.query?.type === 'comparison';
+    const sampleDocTitle = isComparisonDraft
+      ? 'Sample_Commercial_Lease_Revised.pdf'
+      : 'Sample_Commercial_Lease_Agreement.pdf';
+
+    const sampleFileName = `sample_${isComparisonDraft ? 'revised_lease' : 'commercial_lease'}_${Date.now()}.pdf`;
+    const sampleFilePath = path.join(uploadsDir, sampleFileName);
+
+    // Create realistic PDF on disk
+    await new Promise((resolve, reject) => {
+      const doc = new PDFDocument({ margin: 50 });
+      const stream = fs.createWriteStream(sampleFilePath);
+      doc.pipe(stream);
+
+      if (isComparisonDraft) {
+        doc.fontSize(16).text('COMMERCIAL LEASE AGREEMENT (REVISED COUNTER-DRAFT)', { align: 'center', bold: true });
+        doc.moveDown(1);
+        doc.fontSize(10).text('This Revised Counter-Agreement is made on 10th November 2026 between Apex Commercial Properties Ltd ("Landlord") and Nexa Technologies Private Limited ("Tenant").');
+        doc.moveDown(0.5);
+        doc.text('1. PREMISES & TERM: Suite 402, Tower B, Cyber Heights (4,500 sq ft). Term extended to 48 months starting December 1, 2026.');
+        doc.moveDown(0.5);
+        doc.text('2. RENT & ESCALATION: Tenant agrees to pay a higher base rent of INR 2,50,000 per month, with a mandatory 10% annual escalation compounded annually.');
+        doc.moveDown(0.5);
+        doc.text('3. SECURITY DEPOSIT: Tenant pays an increased deposit of INR 12,00,000. Landlord reserves unilateral rights to deduct maintenance and inspection charges at discretion.');
+        doc.moveDown(0.5);
+        doc.text('4. TERMINATION & EXPANDED LOCK-IN: Mandatory 24-month strict lock-in period. Vacating early triggers accelerated liquidated damages for the full remaining term.');
+        doc.moveDown(0.5);
+        doc.text('5. UNILATERAL INDEMNITY: Tenant shall indemnify, defend, and hold harmless Landlord against all liabilities, claims, and structural losses without exception.');
+        doc.moveDown(0.5);
+        doc.text('6. DISPUTE RESOLUTION: Exclusive arbitration at New Delhi with expenses borne solely by the Tenant.');
+      } else {
+        doc.fontSize(16).text('COMMERCIAL LEASE & SERVICES AGREEMENT', { align: 'center', bold: true });
+        doc.moveDown(1);
+        doc.fontSize(10).text('This Agreement is made on 1st November 2026 between Apex Commercial Properties Ltd ("Landlord") and Nexa Technologies Private Limited ("Tenant").');
+        doc.moveDown(0.5);
+        doc.text('1. PREMISES & TERM: Suite 402, Tower B, Cyber Heights, comprising 4,500 sq ft. Term: 36 months starting December 1, 2026 to November 30, 2029.');
+        doc.moveDown(0.5);
+        doc.text('2. RENT: Tenant agrees to pay a monthly rent of INR 2,25,000 in advance by the 5th day of each calendar month. A late penalty of 18% per annum applies for delays.');
+        doc.moveDown(0.5);
+        doc.text('3. SECURITY DEPOSIT: Tenant pays an interest-free refundable deposit of INR 9,00,000 upon signing. The balance of INR 1,50,000 must be deposited by December 15, 2026.');
+        doc.moveDown(0.5);
+        doc.text('4. TERMINATION & LOCK-IN: Both parties agree to a lock-in period of 12 months. If Tenant vacates prior to 12 months, Tenant forfeits the entire security deposit. 60 days written notice required after lock-in.');
+        doc.moveDown(0.5);
+        doc.text('5. INDEMNITY & LIABILITY (HIGH RISK): Tenant shall indemnify, defend, and hold harmless Landlord, its directors, and agents against all liabilities, losses, and damages arising on the premises, including Landlords own sole or gross negligence.');
+        doc.moveDown(0.5);
+        doc.text('6. CONFIDENTIALITY & GOVERNING LAW: All commercial terms shall remain strictly confidential for 5 years. This Agreement is governed by the laws of India, jurisdiction at New Delhi.');
+      }
+      doc.end();
+
+      stream.on('finish', resolve);
+      stream.on('error', reject);
+    });
+
+    const stats = fs.statSync(sampleFilePath);
+    const extractionResult = await processPdfDocument(sampleFilePath);
+
+    const docRecord = await Document.create({
+      owner: req.user.id,
+      originalName: sampleDocTitle,
+      storageFilename: sampleFileName,
+      filePath: sampleFilePath,
+      fileSize: stats.size,
+      mimeType: 'application/pdf',
+      pageCount: extractionResult.pageCount || 1,
+      extractedText: extractionResult.extractedText,
+      extractionMethod: extractionResult.extractionMethod || 'digital_pdf',
+      processingStatus: 'completed',
+      analysisStatus: 'processing',
+      documentType: isComparisonDraft ? 'Revised Commercial Lease' : 'Commercial Lease Agreement',
+    });
+
+    // Run AI analysis
+    try {
+      const aiData = await analyzeLegalDocument(docRecord.extractedText, req.user.geminiApiKey);
+
+      const analysis = await Analysis.create({
+        documentId: docRecord._id,
+        owner: req.user.id,
+        documentType: aiData.documentType || (isComparisonDraft ? 'Revised Commercial Lease' : 'Commercial Lease Agreement'),
+        summary: aiData.summary || {},
+        keyClauses: aiData.keyClauses || [],
+        risks: aiData.risks || [],
+        categorizedClauses: aiData.categorizedClauses || [],
+        explanationEn: aiData.explanationEn || '',
+        explanationHi: aiData.explanationHi || '',
+        legalTermsGlossary: aiData.legalTermsGlossary || [],
+        status: 'completed',
+        modelUsed: aiData._modelUsed || 'gemini-3-flash-preview',
+      });
+
+      if (aiData.obligations && Array.isArray(aiData.obligations)) {
+        const obs = aiData.obligations.map((ob) => ({
+          documentId: docRecord._id,
+          owner: req.user.id,
+          title: ob.title || 'Contract Commitment',
+          description: ob.description || ob.title,
+          responsibleParty: ob.responsibleParty || 'Party',
+          dueDateRaw: ob.dueDateRaw || 'Specified in clause',
+          priority: ['High', 'Medium', 'Low'].includes(ob.priority) ? ob.priority : 'Medium',
+          status: 'Pending',
+        }));
+        if (obs.length > 0) await Obligation.insertMany(obs);
+      }
+
+      docRecord.analysisStatus = 'completed';
+      await docRecord.save();
+    } catch (aiErr) {
+      console.warn('[Sample Doc] AI auto-analysis warning:', aiErr.message);
+      docRecord.analysisStatus = 'not_started';
+      await docRecord.save();
+    }
+
+    return successResponse(res, docRecord, `${sampleDocTitle} loaded successfully`, 201);
+  } catch (err) {
+    next(err);
   }
 };

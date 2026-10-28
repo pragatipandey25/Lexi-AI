@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FileText,
   UploadCloud,
@@ -16,6 +16,7 @@ import {
   PieChart as PieIcon,
   CheckCircle2,
   FileSearch,
+  Loader2,
 } from 'lucide-react';
 import {
   PieChart,
@@ -34,6 +35,8 @@ import api from '../services/api';
 
 export const DashboardPage = () => {
   const { user, hasValidAiKey } = useAuth();
+  const navigate = useNavigate();
+  const [loadingSample, setLoadingSample] = useState(false);
   const [stats, setStats] = useState({
     totalDocuments: 0,
     analyzedDocuments: 0,
@@ -67,6 +70,20 @@ export const DashboardPage = () => {
     fetchDashboardData();
   }, []);
 
+  const handleLoadSample = async () => {
+    setLoadingSample(true);
+    try {
+      const res = await api.post('/documents/load-sample');
+      if (res.data?.success) {
+        navigate(`/documents/${res.data.data._id}`);
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || 'Failed to load sample contract');
+    } finally {
+      setLoadingSample(false);
+    }
+  };
+
   const totalRisks = (stats.highRiskCount || 0) + (stats.mediumRiskCount || 0) + (stats.lowRiskCount || 0) + (stats.suspiciousCount || 0);
 
   const riskPieData = [
@@ -89,12 +106,30 @@ export const DashboardPage = () => {
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleLoadSample}
+            disabled={loadingSample}
+            className="px-4 py-2.5 bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white rounded-xl text-xs font-semibold shadow-md flex items-center space-x-2 transition-all hover:scale-105"
+          >
+            {loadingSample ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Loading Sample Contract...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-4 h-4 text-brand-200" />
+                <span>Load Sample Contract (1-Click Demo)</span>
+              </>
+            )}
+          </button>
+
           <Link
             to="/upload"
-            className="px-4 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-semibold shadow-sm hover:shadow-md transition-all flex items-center space-x-2"
+            className="px-4 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-semibold shadow-sm transition-all flex items-center space-x-2"
           >
-            <UploadCloud className="w-4 h-4" />
+            <UploadCloud className="w-4 h-4 text-slate-500" />
             <span>Upload Document</span>
           </Link>
         </div>
