@@ -18,7 +18,7 @@ import {
   RefreshCw,
   FileSearch,
 } from 'lucide-react';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 
 export const DocumentsPage = () => {
   const [documents, setDocuments] = useState([]);
@@ -222,7 +222,7 @@ export const DocumentsPage = () => {
                   </button>
 
                   <a
-                    href={`/api/documents/${doc._id}/download`}
+                    href={`${API_BASE_URL}/documents/${doc._id}/download`}
                     download
                     className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors"
                     title="Download Original PDF"

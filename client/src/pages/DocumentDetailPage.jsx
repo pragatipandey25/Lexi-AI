@@ -21,7 +21,7 @@ import {
   Search,
   Languages,
 } from 'lucide-react';
-import api from '../services/api';
+import api, { API_BASE_URL } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
 // Subviews
@@ -185,7 +185,7 @@ export const DocumentDetailPage = () => {
           </button>
 
           <a
-            href={`/api/documents/${document._id}/download`}
+            href={`${API_BASE_URL}/documents/${document._id}/download`}
             download
             className="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-medium flex items-center space-x-1.5 transition-colors"
           >
