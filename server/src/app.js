@@ -112,6 +112,30 @@ if (fs.existsSync(clientDist)) {
     }
     res.sendFile(path.join(clientDist, 'index.html'));
   });
+} else {
+  // Graceful root response for standalone backend deployment (Render / Railway)
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      success: true,
+      service: 'LexiAI Legal Intelligence Engine API',
+      status: 'online',
+      version: '1.0.0',
+      owner: 'Pragati Pandey',
+      message: 'LexiAI backend API is running smoothly. To use the full web UI, visit your Vercel frontend.',
+      frontendUrl: process.env.CLIENT_URL || 'http://localhost:5173',
+      endpoints: {
+        health: '/api/health',
+        systemStatus: '/api/auth/system-status',
+        auth: '/api/auth',
+        documents: '/api/documents',
+        analysis: '/api/analysis',
+        chat: '/api/chat',
+        obligations: '/api/obligations',
+        compare: '/api/compare',
+        reports: '/api/reports',
+      },
+    });
+  });
 }
 
 // Fallback handlers
