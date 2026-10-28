@@ -28,8 +28,11 @@ export const Footer = () => {
             <p className="text-xs text-slate-400 max-w-md leading-relaxed">
               Empowering individuals, students, and businesses to decode dense contracts, detect hidden risks, catch contradictory clauses, and track legal deadlines using state-of-the-art Generative AI.
             </p>
-            <div className="text-[11px] text-slate-500 font-mono">
-              Final Year Major Project • B.Tech CSE • MERN Stack & Gemini AI
+            <div className="text-[11px] text-slate-400 font-mono">
+              Project Lead & Architect: <strong className="text-white">Pragati Pandey</strong>
+            </div>
+            <div className="text-[10px] text-slate-500 font-mono">
+              Final Year Major Project • B.Tech Computer Science & Engineering
             </div>
           </div>
 
@@ -57,8 +60,8 @@ export const Footer = () => {
         </div>
 
         <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-          <p>&copy; {new Date().getFullYear()} LexiAI Project. Built with MERN, Tailwind CSS & Google Gemini.</p>
-          <p className="mt-2 sm:mt-0">Academic Final Year Project Demonstration</p>
+          <p>&copy; {new Date().getFullYear()} LexiAI. Designed, architected & developed by <span className="text-slate-300 font-semibold">Pragati Pandey</span>.</p>
+          <p className="mt-2 sm:mt-0 font-mono text-[11px]">Production Version 1.0.0</p>
         </div>
       </div>
     </footer>

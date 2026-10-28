@@ -158,7 +158,7 @@ export const UploadPage = () => {
           ) : (
             <>
               <Sparkles className="w-4 h-4 text-brand-200" />
-              <span>Load Sample Commercial Lease (1-Click Demo)</span>
+              <span>Load Standard Lease Agreement Template</span>
             </>
           )}
         </button>

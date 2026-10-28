@@ -30,11 +30,6 @@ export const LoginPage = () => {
     }
   };
 
-  const fillDemoCredentials = () => {
-    setEmail('demo@lexiai.org');
-    setPassword('lexiai123');
-  };
-
   return (
     <div className="min-h-[calc(100vh-12rem)] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
@@ -109,18 +104,6 @@ export const LoginPage = () => {
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
-
-          {/* Quick Demo Helper Button for Viva Demonstration */}
-          <div className="mt-6 pt-5 border-t border-slate-100">
-            <button
-              type="button"
-              onClick={fillDemoCredentials}
-              className="w-full py-2 px-3 bg-slate-50 hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-medium border border-slate-200 flex items-center justify-center space-x-1.5 transition-colors"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-              <span>Fill Quick Demo Credentials (demo@lexiai.org)</span>
-            </button>
-          </div>
 
           <div className="mt-6 text-center text-xs text-slate-500">
             Don&apos;t have an account yet?{' '}

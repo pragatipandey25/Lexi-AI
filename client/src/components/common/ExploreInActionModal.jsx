@@ -94,14 +94,16 @@ export const ExploreInActionModal = ({ isOpen, onClose, initialModuleId = 'smart
     { id: 'downloadable_report', title: 'Audit Report', icon: FileDown, badge: 'PDF Export' },
   ];
 
-  // 1-Click Launch Demo Workspace
+  // Workspace Launch
   const handleLaunchFullWorkspace = async () => {
+    if (!user) {
+      onClose();
+      navigate('/login');
+      return;
+    }
     setLoadingDemoLaunch(true);
     try {
-      if (!user) {
-        await login('demo@lexiai.org', 'lexiai123');
-      }
-      // Load sample contract dynamically into MongoDB
+      // Load sample contract template dynamically into MongoDB under user's account
       const res = await api.post('/documents/load-sample');
       if (res.data?.success && res.data.data?._id) {
         onClose();
@@ -111,9 +113,9 @@ export const ExploreInActionModal = ({ isOpen, onClose, initialModuleId = 'smart
         navigate('/dashboard');
       }
     } catch (err) {
-      console.error('Failed to launch demo workspace:', err);
+      console.error('Failed to launch workspace:', err);
       onClose();
-      navigate('/login');
+      navigate('/dashboard');
     } finally {
       setLoadingDemoLaunch(false);
     }
@@ -916,11 +918,11 @@ Key Highlights:
               {loadingDemoLaunch ? (
                 <>
                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  <span>Preparing Workspace...</span>
+                  <span>Loading Workspace...</span>
                 </>
               ) : (
                 <>
-                  <span>Launch Live Workspace (1-Click Demo)</span>
+                  <span>{user ? 'Load Template into Workspace' : 'Sign In to Start Analysis'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </>
               )}

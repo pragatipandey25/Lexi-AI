@@ -31,10 +31,14 @@ export const register = async (req, res, next) => {
       return errorResponse(res, 'An account with this email already exists', 400);
     }
 
+    const isFirstUser = (await User.countDocuments()) === 0;
+    const isOwnerEmail = email.toLowerCase() === 'pragatipandey454@gmail.com';
+
     const user = await User.create({
       name,
       email,
       password,
+      role: (isFirstUser || isOwnerEmail) ? 'owner' : 'user',
     });
 
     const token = generateToken(user._id);
@@ -46,6 +50,7 @@ export const register = async (req, res, next) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          role: user.role,
           hasCustomApiKey: false,
           preferences: user.preferences,
           createdAt: user.createdAt,
@@ -90,6 +95,7 @@ export const login = async (req, res, next) => {
           id: user._id,
           name: user.name,
           email: user.email,
+          role: user.role || 'user',
           hasCustomApiKey: Boolean(user.geminiApiKey),
           preferences: user.preferences,
           createdAt: user.createdAt,
@@ -117,6 +123,7 @@ export const getMe = async (req, res, next) => {
       id: user._id,
       name: user.name,
       email: user.email,
+      role: user.role || 'user',
       hasCustomApiKey: Boolean(user.geminiApiKey),
       preferences: user.preferences,
       createdAt: user.createdAt,

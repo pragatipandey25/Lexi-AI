@@ -71,9 +71,21 @@ export const SettingsPage = () => {
 
       {/* 1. Profile & Preferences Card */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center space-x-2">
-          <User className="w-4 h-4 text-brand-600" />
-          <h2 className="font-bold text-sm text-slate-900">User Profile & Language</h2>
+        <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <User className="w-4 h-4 text-brand-600" />
+            <h2 className="font-bold text-sm text-slate-900">User Profile & Language</h2>
+          </div>
+          {user?.role === 'owner' ? (
+            <span className="px-2.5 py-0.5 rounded-full bg-brand-100 text-brand-800 border border-brand-200 text-[11px] font-bold uppercase tracking-wider font-mono flex items-center gap-1">
+              <Shield className="w-3 h-3 text-brand-600" />
+              <span>Project Owner & Lead</span>
+            </span>
+          ) : (
+            <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[11px] font-semibold">
+              Standard User
+            </span>
+          )}
         </div>
 
         <form onSubmit={handleProfileSubmit} className="p-6 space-y-4">

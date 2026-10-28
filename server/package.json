@@ -4,8 +4,11 @@
   "description": "LexiAI - AI-Powered Legal Document Assistant Backend",
   "type": "module",
   "main": "src/server.js",
+  "author": "Pragati Pandey <pragatipandey454@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "start": "node src/server.js",
+    "prod": "NODE_ENV=production node src/server.js",
     "dev": "nodemon src/server.js",
     "test": "node tests/test_full_suite.js"
   },

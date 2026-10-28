@@ -2,6 +2,7 @@
   "name": "lexiai-client",
   "private": true,
   "version": "1.0.0",
+  "author": "Pragati Pandey <pragatipandey454@gmail.com>",
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -120,7 +120,7 @@ export const ComparePage = () => {
             ) : (
               <>
                 <Sparkles className="w-3.5 h-3.5 text-brand-200" />
-                <span>Load Sample Pair (1-Click Demo)</span>
+                <span>Load Comparison Templates</span>
               </>
             )}
           </button>

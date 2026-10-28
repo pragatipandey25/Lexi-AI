@@ -120,7 +120,7 @@ export const DashboardPage = () => {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-brand-200" />
-                <span>Load Sample Contract (1-Click Demo)</span>
+                <span>Load Contract Template</span>
               </>
             )}
           </button>
