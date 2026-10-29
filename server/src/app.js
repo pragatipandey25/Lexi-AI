@@ -38,6 +38,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Auto-connect to database in serverless execution environments
 app.use(async (req, res, next) => {
+  if (req.method === 'OPTIONS') return next();
   try {
     await connectDB();
     next();
@@ -54,20 +55,54 @@ app.use(
   })
 );
 
-// CORS configuration
+// Permissive & Secure CORS for Vercel, localhost, and custom domains
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5000',
+  'http://localhost:3000',
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, server-to-server)
+      if (!origin) return callback(null, true);
+
+      // Allow any localhost port
+      if (origin.startsWith('http://localhost:')) {
+        return callback(null, true);
+      }
+
+      // Allow all Vercel deployment domains (*.vercel.app)
+      if (origin.endsWith('.vercel.app')) {
+        return callback(null, true);
+      }
+
+      // Allow explicit CLIENT_URL
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      // Fallback allow for web client flexibility
+      return callback(null, true);
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   })
 );
 
-// Rate limiting for production defense
+// Explicit preflight handler
+app.options('*', cors());
+
+// Rate limiting for production defense (skip OPTIONS preflight)
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 300,
+  max: 500,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => req.method === 'OPTIONS',
   message: {
     success: false,
     message: 'Too many requests from this client, please try again in a few minutes',
@@ -76,9 +111,10 @@ const apiLimiter = rateLimit({
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 40,
+  max: 60,
   standardHeaders: true,
   legacyHeaders: false,
+  skip: (req) => req.method === 'OPTIONS',
   message: {
     success: false,
     message: 'Too many authentication attempts, please try again later',

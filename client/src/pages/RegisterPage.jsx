@@ -37,7 +37,11 @@ export const RegisterPage = () => {
       await register(name, email, password);
       navigate('/dashboard');
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Registration failed');
+      if (err.message === 'Network Error' || !err.response) {
+        setError('Unable to reach the backend server. Please verify your connection or backend deployment status.');
+      } else {
+        setError(err.response?.data?.message || err.message || 'Registration failed');
+      }
     } finally {
       setLoading(false);
     }

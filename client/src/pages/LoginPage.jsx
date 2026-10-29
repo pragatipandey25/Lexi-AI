@@ -24,7 +24,11 @@ export const LoginPage = () => {
       await login(email, password);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Login failed. Please check your credentials.');
+      if (err.message === 'Network Error' || !err.response) {
+        setError('Unable to reach the backend server. Please verify your connection or backend deployment status.');
+      } else {
+        setError(err.response?.data?.message || err.message || 'Login failed. Please check your credentials.');
+      }
     } finally {
       setLoading(false);
     }
