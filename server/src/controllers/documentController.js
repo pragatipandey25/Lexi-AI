@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import PDFDocument from 'pdfkit';
 import { Document } from '../models/Document.js';
 import { Analysis } from '../models/Analysis.js';
@@ -274,9 +275,14 @@ export const downloadDocument = async (req, res, next) => {
 // @access  Private
 export const loadSampleDocument = async (req, res, next) => {
   try {
-    const uploadsDir = path.join(process.cwd(), 'uploads');
+    const uploadsDir = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
+      ? path.join(os.tmpdir(), 'lexiai_uploads')
+      : path.join(process.cwd(), 'uploads');
+
     if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
+      try {
+        fs.mkdirSync(uploadsDir, { recursive: true });
+      } catch (e) {}
     }
 
     const isComparisonDraft = req.body?.type === 'comparison' || req.query?.type === 'comparison';

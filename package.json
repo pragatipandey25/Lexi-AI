@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "LexiAI - AI-Powered Legal Document Assistant | Major Project",
   "main": "server/src/server.js",
+  "workspaces": [
+    "server",
+    "client"
+  ],
   "scripts": {
     "start": "node server/src/server.js",
     "server": "npm --prefix server run dev",

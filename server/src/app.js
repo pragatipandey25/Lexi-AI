@@ -6,6 +6,8 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
+import os from 'os';
+import { connectDB } from './config/db.js';
 
 // Routes
 import authRoutes from './routes/authRoutes.js';
@@ -23,11 +25,27 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, '..', 'uploads');
+// Ensure uploads directory exists (use os.tmpdir() in serverless)
+const uploadsDir = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
+  ? path.join(os.tmpdir(), 'lexiai_uploads')
+  : path.join(__dirname, '..', 'uploads');
+
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  try {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  } catch (e) {}
 }
+
+// Auto-connect to database in serverless execution environments
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('[Database Middleware Error]:', err.message);
+    next(err);
+  }
+});
 
 // Security headers
 app.use(

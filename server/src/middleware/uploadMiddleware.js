@@ -2,15 +2,23 @@ import multer from 'multer';
 import path from 'path';
 import crypto from 'crypto';
 import fs from 'fs';
+import os from 'os';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const uploadsDir = path.join(__dirname, '..', '..', 'uploads');
 
-// Ensure directory exists
+// Ensure uploads directory exists (use os.tmpdir() in serverless)
+const uploadsDir = (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME)
+  ? path.join(os.tmpdir(), 'lexiai_uploads')
+  : path.join(__dirname, '..', '..', 'uploads');
+
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+  try {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  } catch (e) {
+    console.warn('[Uploads] Could not create uploads directory:', e.message);
+  }
 }
 
 // Multer storage engine
